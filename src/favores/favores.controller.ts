@@ -6,10 +6,19 @@ import {
   Param,
   Patch,
   Delete,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
+import type { Request } from 'express';
+import type { User } from '../generated/prisma/client';
 import { FavoresService } from './favores.service';
 import { CreateFavorDto } from './create-favor.dto';
 import { UpdateFavorDto } from './update-favor.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+
+interface RequestConUsuario extends Request {
+  user: User;
+}
 
 @Controller('favores')
 export class FavoresController {
@@ -25,9 +34,10 @@ export class FavoresController {
     return this.favoresService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() dto: CreateFavorDto) {
-    return this.favoresService.create(dto);
+  create(@Body() dto: CreateFavorDto, @Req() req: RequestConUsuario) {
+    return this.favoresService.create(dto, req.user.id);
   }
 
   @Patch(':id')

@@ -26,7 +26,7 @@ export class FavoresService {
     return favor;
   }
 
-  async create(dto: CreateFavorDto): Promise<Favor> {
+  async create(dto: CreateFavorDto, userId: string): Promise<Favor> {
     return await this.prisma.favor.create({
       data: {
         tipo: dto.tipo,
@@ -37,6 +37,7 @@ export class FavoresService {
         longitude: dto.longitude,
         expiraEn: dto.expiraEn ? new Date(dto.expiraEn) : null,
         telefonoContacto: dto.telefonoContacto ?? null,
+        userId,
       },
     });
   }
