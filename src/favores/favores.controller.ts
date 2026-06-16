@@ -7,9 +7,11 @@ import {
   Patch,
   Delete,
   Req,
+  Query,
   UseGuards,
+  Res,
 } from '@nestjs/common';
-import type { Request } from 'express';
+import type { Request, Response } from 'express';
 import type { User } from '../generated/prisma/client';
 import { FavoresService } from './favores.service';
 import { CreateFavorDto } from './create-favor.dto';
@@ -25,8 +27,18 @@ export class FavoresController {
   constructor(private readonly favoresService: FavoresService) {}
 
   @Get()
-  findAll() {
-    return this.favoresService.findAll();
+  async findAll(
+    @Query('page') page: string | undefined,
+    @Query('limit') limit: string | undefined,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { data, total } = await this.favoresService.findAll(
+      page ? Number(page) : undefined,
+      limit ? Number(limit) : undefined,
+    );
+
+    res.setHeader('X-Total-Count', total.toString());
+    return data;
   }
 
   @Get(':id')
@@ -40,13 +52,19 @@ export class FavoresController {
     return this.favoresService.create(dto, req.user.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateFavorDto) {
-    return this.favoresService.update(id, dto);
+  update(
+    @Param('id') id: string,
+    @Body() dto: UpdateFavorDto,
+    @Req() req: RequestConUsuario,
+  ) {
+    return this.favoresService.update(id, dto, req.user.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.favoresService.remove(id);
+  remove(@Param('id') id: string, @Req() req: RequestConUsuario) {
+    return this.favoresService.remove(id, req.user.id);
   }
 }

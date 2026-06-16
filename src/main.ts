@@ -1,11 +1,24 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api');
+
+  // Helmet agrega headers HTTP de seguridad por defecto (X-Content-Type-Options,
+  // X-Frame-Options, Strict-Transport-Security, etc.) — protección básica contra
+  // varios ataques comunes del lado del navegador.
+  app.use(helmet());
+
+  // Solo el frontend conocido puede llamar a la API desde un navegador.
+  // Esto no afecta a la app móvil (React Native no manda header Origin),
+  // pero sí bloquea que cualquier sitio web ajeno haga requests desde JS del browser.
+  app.enableCors({
+    origin: process.env.FRONTEND_URL,
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
