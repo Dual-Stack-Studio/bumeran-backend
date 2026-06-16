@@ -1,12 +1,18 @@
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.setGlobalPrefix('api');
+
+  // Railway (y la mayoría de los hosts) ponen la app detrás de un proxy reverso.
+  // Sin esto, Express ve la IP interna del proxy para TODAS las requests, y el
+  // rate limiting (ThrottlerGuard) trataría a todos los usuarios como uno solo.
+  app.set('trust proxy', 1);
 
   // Helmet agrega headers HTTP de seguridad por defecto (X-Content-Type-Options,
   // X-Frame-Options, Strict-Transport-Security, etc.) — protección básica contra
