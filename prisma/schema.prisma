@@ -1,0 +1,54 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TipoFavor {
+  necesito
+  ofrezco
+  regalo
+}
+
+enum EstadoFavor {
+  abierto
+  en_proceso
+  cerrado
+}
+
+model User {
+  id        String   @id @default(uuid())
+  googleId  String   @unique
+  name      String?
+  email     String   @unique
+  photo     String?
+  telefono  String?
+  createdAt DateTime @default(now())
+
+  favores Favor[]
+
+  @@map("users")
+}
+
+model Favor {
+  id               String      @id @default(uuid())
+  tipo             TipoFavor
+  titulo           String
+  descripcion      String
+  categoria        String
+  latitude         Float
+  longitude        Float
+  estado           EstadoFavor @default(abierto)
+  creadoEn         DateTime    @default(now())
+  expiraEn         DateTime?
+  telefonoContacto String?
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  @@map("favores")
+}

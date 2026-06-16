@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: cadena_favores_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: cadena_user
+      POSTGRES_PASSWORD: cadena_password
+      POSTGRES_DB: cadena_favores_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - cadena_favores_postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: cadena_favores_redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+volumes:
+  cadena_favores_postgres_data:
