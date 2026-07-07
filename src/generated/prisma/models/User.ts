@@ -20,8 +20,20 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  promedioCalificacion: number | null
+  totalReviews: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  promedioCalificacion: number | null
+  totalReviews: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -31,6 +43,11 @@ export type UserMinAggregateOutputType = {
   email: string | null
   photo: string | null
   telefono: string | null
+  telefonoVerificado: boolean | null
+  telefonoVerificadoEn: Date | null
+  promedioCalificacion: number | null
+  totalReviews: number | null
+  suspendido: boolean | null
   createdAt: Date | null
 }
 
@@ -41,6 +58,11 @@ export type UserMaxAggregateOutputType = {
   email: string | null
   photo: string | null
   telefono: string | null
+  telefonoVerificado: boolean | null
+  telefonoVerificadoEn: Date | null
+  promedioCalificacion: number | null
+  totalReviews: number | null
+  suspendido: boolean | null
   createdAt: Date | null
 }
 
@@ -51,10 +73,25 @@ export type UserCountAggregateOutputType = {
   email: number
   photo: number
   telefono: number
+  telefonoVerificado: number
+  telefonoVerificadoEn: number
+  promedioCalificacion: number
+  totalReviews: number
+  suspendido: number
   createdAt: number
   _all: number
 }
 
+
+export type UserAvgAggregateInputType = {
+  promedioCalificacion?: true
+  totalReviews?: true
+}
+
+export type UserSumAggregateInputType = {
+  promedioCalificacion?: true
+  totalReviews?: true
+}
 
 export type UserMinAggregateInputType = {
   id?: true
@@ -63,6 +100,11 @@ export type UserMinAggregateInputType = {
   email?: true
   photo?: true
   telefono?: true
+  telefonoVerificado?: true
+  telefonoVerificadoEn?: true
+  promedioCalificacion?: true
+  totalReviews?: true
+  suspendido?: true
   createdAt?: true
 }
 
@@ -73,6 +115,11 @@ export type UserMaxAggregateInputType = {
   email?: true
   photo?: true
   telefono?: true
+  telefonoVerificado?: true
+  telefonoVerificadoEn?: true
+  promedioCalificacion?: true
+  totalReviews?: true
+  suspendido?: true
   createdAt?: true
 }
 
@@ -83,6 +130,11 @@ export type UserCountAggregateInputType = {
   email?: true
   photo?: true
   telefono?: true
+  telefonoVerificado?: true
+  telefonoVerificadoEn?: true
+  promedioCalificacion?: true
+  totalReviews?: true
+  suspendido?: true
   createdAt?: true
   _all?: true
 }
@@ -125,6 +177,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -155,6 +219,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -166,8 +232,15 @@ export type UserGroupByOutputType = {
   email: string
   photo: string | null
   telefono: string | null
+  telefonoVerificado: boolean
+  telefonoVerificadoEn: Date | null
+  promedioCalificacion: number | null
+  totalReviews: number
+  suspendido: boolean
   createdAt: Date
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -197,8 +270,18 @@ export type UserWhereInput = {
   email?: Prisma.StringFilter<"User"> | string
   photo?: Prisma.StringNullableFilter<"User"> | string | null
   telefono?: Prisma.StringNullableFilter<"User"> | string | null
+  telefonoVerificado?: Prisma.BoolFilter<"User"> | boolean
+  telefonoVerificadoEn?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  promedioCalificacion?: Prisma.FloatNullableFilter<"User"> | number | null
+  totalReviews?: Prisma.IntFilter<"User"> | number
+  suspendido?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   favores?: Prisma.FavorListRelationFilter
+  reviewsEscritas?: Prisma.ReviewListRelationFilter
+  reviewsRecibidas?: Prisma.ReviewListRelationFilter
+  conexionesSolicitante?: Prisma.FavorConexionListRelationFilter
+  conexionesAyudante?: Prisma.FavorConexionListRelationFilter
+  verificacionTelefono?: Prisma.XOR<Prisma.VerificacionTelefonoNullableScalarRelationFilter, Prisma.VerificacionTelefonoWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -208,8 +291,18 @@ export type UserOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   photo?: Prisma.SortOrderInput | Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
+  telefonoVerificado?: Prisma.SortOrder
+  telefonoVerificadoEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  promedioCalificacion?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalReviews?: Prisma.SortOrder
+  suspendido?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   favores?: Prisma.FavorOrderByRelationAggregateInput
+  reviewsEscritas?: Prisma.ReviewOrderByRelationAggregateInput
+  reviewsRecibidas?: Prisma.ReviewOrderByRelationAggregateInput
+  conexionesSolicitante?: Prisma.FavorConexionOrderByRelationAggregateInput
+  conexionesAyudante?: Prisma.FavorConexionOrderByRelationAggregateInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -222,8 +315,18 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringNullableFilter<"User"> | string | null
   photo?: Prisma.StringNullableFilter<"User"> | string | null
   telefono?: Prisma.StringNullableFilter<"User"> | string | null
+  telefonoVerificado?: Prisma.BoolFilter<"User"> | boolean
+  telefonoVerificadoEn?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  promedioCalificacion?: Prisma.FloatNullableFilter<"User"> | number | null
+  totalReviews?: Prisma.IntFilter<"User"> | number
+  suspendido?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   favores?: Prisma.FavorListRelationFilter
+  reviewsEscritas?: Prisma.ReviewListRelationFilter
+  reviewsRecibidas?: Prisma.ReviewListRelationFilter
+  conexionesSolicitante?: Prisma.FavorConexionListRelationFilter
+  conexionesAyudante?: Prisma.FavorConexionListRelationFilter
+  verificacionTelefono?: Prisma.XOR<Prisma.VerificacionTelefonoNullableScalarRelationFilter, Prisma.VerificacionTelefonoWhereInput> | null
 }, "id" | "googleId" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -233,10 +336,17 @@ export type UserOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   photo?: Prisma.SortOrderInput | Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
+  telefonoVerificado?: Prisma.SortOrder
+  telefonoVerificadoEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  promedioCalificacion?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalReviews?: Prisma.SortOrder
+  suspendido?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -249,6 +359,11 @@ export type UserScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   photo?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   telefono?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  telefonoVerificado?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  telefonoVerificadoEn?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  promedioCalificacion?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  totalReviews?: Prisma.IntWithAggregatesFilter<"User"> | number
+  suspendido?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
 
@@ -259,8 +374,18 @@ export type UserCreateInput = {
   email: string
   photo?: string | null
   telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
   createdAt?: Date | string
   favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
+  reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
+  conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
+  conexionesAyudante?: Prisma.FavorConexionCreateNestedManyWithoutAyudanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -270,8 +395,18 @@ export type UserUncheckedCreateInput = {
   email: string
   photo?: string | null
   telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
   createdAt?: Date | string
   favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutAyudanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -281,8 +416,18 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
+  reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUpdateManyWithoutAyudanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -292,8 +437,18 @@ export type UserUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
+  reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedUpdateManyWithoutAyudanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -303,6 +458,11 @@ export type UserCreateManyInput = {
   email: string
   photo?: string | null
   telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
   createdAt?: Date | string
 }
 
@@ -313,6 +473,11 @@ export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -323,6 +488,11 @@ export type UserUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -333,7 +503,17 @@ export type UserCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   photo?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
+  telefonoVerificado?: Prisma.SortOrder
+  telefonoVerificadoEn?: Prisma.SortOrder
+  promedioCalificacion?: Prisma.SortOrder
+  totalReviews?: Prisma.SortOrder
+  suspendido?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  promedioCalificacion?: Prisma.SortOrder
+  totalReviews?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -343,6 +523,11 @@ export type UserMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   photo?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
+  telefonoVerificado?: Prisma.SortOrder
+  telefonoVerificadoEn?: Prisma.SortOrder
+  promedioCalificacion?: Prisma.SortOrder
+  totalReviews?: Prisma.SortOrder
+  suspendido?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -353,12 +538,27 @@ export type UserMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   photo?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
+  telefonoVerificado?: Prisma.SortOrder
+  telefonoVerificadoEn?: Prisma.SortOrder
+  promedioCalificacion?: Prisma.SortOrder
+  totalReviews?: Prisma.SortOrder
+  suspendido?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  promedioCalificacion?: Prisma.SortOrder
+  totalReviews?: Prisma.SortOrder
 }
 
 export type UserNullableScalarRelationFilter = {
   is?: Prisma.UserWhereInput | null
   isNot?: Prisma.UserWhereInput | null
+}
+
+export type UserScalarRelationFilter = {
+  is?: Prisma.UserWhereInput
+  isNot?: Prisma.UserWhereInput
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -367,6 +567,30 @@ export type StringFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -389,6 +613,76 @@ export type UserUpdateOneWithoutFavoresNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFavoresInput, Prisma.UserUpdateWithoutFavoresInput>, Prisma.UserUncheckedUpdateWithoutFavoresInput>
 }
 
+export type UserCreateNestedOneWithoutConexionesSolicitanteInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutConexionesSolicitanteInput, Prisma.UserUncheckedCreateWithoutConexionesSolicitanteInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutConexionesSolicitanteInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutConexionesAyudanteInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutConexionesAyudanteInput, Prisma.UserUncheckedCreateWithoutConexionesAyudanteInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutConexionesAyudanteInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutConexionesSolicitanteNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutConexionesSolicitanteInput, Prisma.UserUncheckedCreateWithoutConexionesSolicitanteInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutConexionesSolicitanteInput
+  upsert?: Prisma.UserUpsertWithoutConexionesSolicitanteInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConexionesSolicitanteInput, Prisma.UserUpdateWithoutConexionesSolicitanteInput>, Prisma.UserUncheckedUpdateWithoutConexionesSolicitanteInput>
+}
+
+export type UserUpdateOneRequiredWithoutConexionesAyudanteNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutConexionesAyudanteInput, Prisma.UserUncheckedCreateWithoutConexionesAyudanteInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutConexionesAyudanteInput
+  upsert?: Prisma.UserUpsertWithoutConexionesAyudanteInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConexionesAyudanteInput, Prisma.UserUpdateWithoutConexionesAyudanteInput>, Prisma.UserUncheckedUpdateWithoutConexionesAyudanteInput>
+}
+
+export type UserCreateNestedOneWithoutReviewsEscritasInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsEscritasInput, Prisma.UserUncheckedCreateWithoutReviewsEscritasInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsEscritasInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutReviewsRecibidasInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecibidasInput, Prisma.UserUncheckedCreateWithoutReviewsRecibidasInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsRecibidasInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutReviewsEscritasNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsEscritasInput, Prisma.UserUncheckedCreateWithoutReviewsEscritasInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsEscritasInput
+  upsert?: Prisma.UserUpsertWithoutReviewsEscritasInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsEscritasInput, Prisma.UserUpdateWithoutReviewsEscritasInput>, Prisma.UserUncheckedUpdateWithoutReviewsEscritasInput>
+}
+
+export type UserUpdateOneRequiredWithoutReviewsRecibidasNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecibidasInput, Prisma.UserUncheckedCreateWithoutReviewsRecibidasInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsRecibidasInput
+  upsert?: Prisma.UserUpsertWithoutReviewsRecibidasInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsRecibidasInput, Prisma.UserUpdateWithoutReviewsRecibidasInput>, Prisma.UserUncheckedUpdateWithoutReviewsRecibidasInput>
+}
+
+export type UserCreateNestedOneWithoutVerificacionTelefonoInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVerificacionTelefonoInput, Prisma.UserUncheckedCreateWithoutVerificacionTelefonoInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVerificacionTelefonoInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutVerificacionTelefonoNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVerificacionTelefonoInput, Prisma.UserUncheckedCreateWithoutVerificacionTelefonoInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVerificacionTelefonoInput
+  upsert?: Prisma.UserUpsertWithoutVerificacionTelefonoInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVerificacionTelefonoInput, Prisma.UserUpdateWithoutVerificacionTelefonoInput>, Prisma.UserUncheckedUpdateWithoutVerificacionTelefonoInput>
+}
+
 export type UserCreateWithoutFavoresInput = {
   id?: string
   googleId: string
@@ -396,7 +690,17 @@ export type UserCreateWithoutFavoresInput = {
   email: string
   photo?: string | null
   telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
   createdAt?: Date | string
+  reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
+  reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
+  conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
+  conexionesAyudante?: Prisma.FavorConexionCreateNestedManyWithoutAyudanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutFavoresInput = {
@@ -406,7 +710,17 @@ export type UserUncheckedCreateWithoutFavoresInput = {
   email: string
   photo?: string | null
   telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
   createdAt?: Date | string
+  reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutAyudanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutFavoresInput = {
@@ -432,7 +746,17 @@ export type UserUpdateWithoutFavoresInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
+  reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUpdateManyWithoutAyudanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFavoresInput = {
@@ -442,7 +766,497 @@ export type UserUncheckedUpdateWithoutFavoresInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedUpdateManyWithoutAyudanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutConexionesSolicitanteInput = {
+  id?: string
+  googleId: string
+  name?: string | null
+  email: string
+  photo?: string | null
+  telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
+  createdAt?: Date | string
+  favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
+  reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
+  conexionesAyudante?: Prisma.FavorConexionCreateNestedManyWithoutAyudanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutConexionesSolicitanteInput = {
+  id?: string
+  googleId: string
+  name?: string | null
+  email: string
+  photo?: string | null
+  telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
+  createdAt?: Date | string
+  favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutAyudanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutConexionesSolicitanteInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutConexionesSolicitanteInput, Prisma.UserUncheckedCreateWithoutConexionesSolicitanteInput>
+}
+
+export type UserCreateWithoutConexionesAyudanteInput = {
+  id?: string
+  googleId: string
+  name?: string | null
+  email: string
+  photo?: string | null
+  telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
+  createdAt?: Date | string
+  favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
+  reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
+  conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutConexionesAyudanteInput = {
+  id?: string
+  googleId: string
+  name?: string | null
+  email: string
+  photo?: string | null
+  telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
+  createdAt?: Date | string
+  favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutConexionesAyudanteInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutConexionesAyudanteInput, Prisma.UserUncheckedCreateWithoutConexionesAyudanteInput>
+}
+
+export type UserUpsertWithoutConexionesSolicitanteInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutConexionesSolicitanteInput, Prisma.UserUncheckedUpdateWithoutConexionesSolicitanteInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutConexionesSolicitanteInput, Prisma.UserUncheckedCreateWithoutConexionesSolicitanteInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutConexionesSolicitanteInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutConexionesSolicitanteInput, Prisma.UserUncheckedUpdateWithoutConexionesSolicitanteInput>
+}
+
+export type UserUpdateWithoutConexionesSolicitanteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
+  reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUpdateManyWithoutAyudanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutConexionesSolicitanteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
+  reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedUpdateManyWithoutAyudanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutConexionesAyudanteInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutConexionesAyudanteInput, Prisma.UserUncheckedUpdateWithoutConexionesAyudanteInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutConexionesAyudanteInput, Prisma.UserUncheckedCreateWithoutConexionesAyudanteInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutConexionesAyudanteInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutConexionesAyudanteInput, Prisma.UserUncheckedUpdateWithoutConexionesAyudanteInput>
+}
+
+export type UserUpdateWithoutConexionesAyudanteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
+  reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutConexionesAyudanteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
+  reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutReviewsEscritasInput = {
+  id?: string
+  googleId: string
+  name?: string | null
+  email: string
+  photo?: string | null
+  telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
+  createdAt?: Date | string
+  favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
+  conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
+  conexionesAyudante?: Prisma.FavorConexionCreateNestedManyWithoutAyudanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutReviewsEscritasInput = {
+  id?: string
+  googleId: string
+  name?: string | null
+  email: string
+  photo?: string | null
+  telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
+  createdAt?: Date | string
+  favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutAyudanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutReviewsEscritasInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsEscritasInput, Prisma.UserUncheckedCreateWithoutReviewsEscritasInput>
+}
+
+export type UserCreateWithoutReviewsRecibidasInput = {
+  id?: string
+  googleId: string
+  name?: string | null
+  email: string
+  photo?: string | null
+  telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
+  createdAt?: Date | string
+  favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
+  conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
+  conexionesAyudante?: Prisma.FavorConexionCreateNestedManyWithoutAyudanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutReviewsRecibidasInput = {
+  id?: string
+  googleId: string
+  name?: string | null
+  email: string
+  photo?: string | null
+  telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
+  createdAt?: Date | string
+  favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutAyudanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutReviewsRecibidasInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecibidasInput, Prisma.UserUncheckedCreateWithoutReviewsRecibidasInput>
+}
+
+export type UserUpsertWithoutReviewsEscritasInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewsEscritasInput, Prisma.UserUncheckedUpdateWithoutReviewsEscritasInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsEscritasInput, Prisma.UserUncheckedCreateWithoutReviewsEscritasInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewsEscritasInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewsEscritasInput, Prisma.UserUncheckedUpdateWithoutReviewsEscritasInput>
+}
+
+export type UserUpdateWithoutReviewsEscritasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUpdateManyWithoutAyudanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewsEscritasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedUpdateManyWithoutAyudanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutReviewsRecibidasInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewsRecibidasInput, Prisma.UserUncheckedUpdateWithoutReviewsRecibidasInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewsRecibidasInput, Prisma.UserUncheckedCreateWithoutReviewsRecibidasInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewsRecibidasInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewsRecibidasInput, Prisma.UserUncheckedUpdateWithoutReviewsRecibidasInput>
+}
+
+export type UserUpdateWithoutReviewsRecibidasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUpdateManyWithoutAyudanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewsRecibidasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
+  reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedUpdateManyWithoutAyudanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutVerificacionTelefonoInput = {
+  id?: string
+  googleId: string
+  name?: string | null
+  email: string
+  photo?: string | null
+  telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
+  createdAt?: Date | string
+  favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
+  reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
+  conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
+  conexionesAyudante?: Prisma.FavorConexionCreateNestedManyWithoutAyudanteInput
+}
+
+export type UserUncheckedCreateWithoutVerificacionTelefonoInput = {
+  id?: string
+  googleId: string
+  name?: string | null
+  email: string
+  photo?: string | null
+  telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
+  createdAt?: Date | string
+  favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutAyudanteInput
+}
+
+export type UserCreateOrConnectWithoutVerificacionTelefonoInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutVerificacionTelefonoInput, Prisma.UserUncheckedCreateWithoutVerificacionTelefonoInput>
+}
+
+export type UserUpsertWithoutVerificacionTelefonoInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutVerificacionTelefonoInput, Prisma.UserUncheckedUpdateWithoutVerificacionTelefonoInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutVerificacionTelefonoInput, Prisma.UserUncheckedCreateWithoutVerificacionTelefonoInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutVerificacionTelefonoInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutVerificacionTelefonoInput, Prisma.UserUncheckedUpdateWithoutVerificacionTelefonoInput>
+}
+
+export type UserUpdateWithoutVerificacionTelefonoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
+  reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUpdateManyWithoutAyudanteNestedInput
+}
+
+export type UserUncheckedUpdateWithoutVerificacionTelefonoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
+  reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedUpdateManyWithoutAyudanteNestedInput
 }
 
 
@@ -452,10 +1266,18 @@ export type UserUncheckedUpdateWithoutFavoresInput = {
 
 export type UserCountOutputType = {
   favores: number
+  reviewsEscritas: number
+  reviewsRecibidas: number
+  conexionesSolicitante: number
+  conexionesAyudante: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   favores?: boolean | UserCountOutputTypeCountFavoresArgs
+  reviewsEscritas?: boolean | UserCountOutputTypeCountReviewsEscritasArgs
+  reviewsRecibidas?: boolean | UserCountOutputTypeCountReviewsRecibidasArgs
+  conexionesSolicitante?: boolean | UserCountOutputTypeCountConexionesSolicitanteArgs
+  conexionesAyudante?: boolean | UserCountOutputTypeCountConexionesAyudanteArgs
 }
 
 /**
@@ -475,6 +1297,34 @@ export type UserCountOutputTypeCountFavoresArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.FavorWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReviewsEscritasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReviewsRecibidasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountConexionesSolicitanteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FavorConexionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountConexionesAyudanteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FavorConexionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -483,8 +1333,18 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   email?: boolean
   photo?: boolean
   telefono?: boolean
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: boolean
+  promedioCalificacion?: boolean
+  totalReviews?: boolean
+  suspendido?: boolean
   createdAt?: boolean
   favores?: boolean | Prisma.User$favoresArgs<ExtArgs>
+  reviewsEscritas?: boolean | Prisma.User$reviewsEscritasArgs<ExtArgs>
+  reviewsRecibidas?: boolean | Prisma.User$reviewsRecibidasArgs<ExtArgs>
+  conexionesSolicitante?: boolean | Prisma.User$conexionesSolicitanteArgs<ExtArgs>
+  conexionesAyudante?: boolean | Prisma.User$conexionesAyudanteArgs<ExtArgs>
+  verificacionTelefono?: boolean | Prisma.User$verificacionTelefonoArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -495,6 +1355,11 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   photo?: boolean
   telefono?: boolean
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: boolean
+  promedioCalificacion?: boolean
+  totalReviews?: boolean
+  suspendido?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -505,6 +1370,11 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   photo?: boolean
   telefono?: boolean
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: boolean
+  promedioCalificacion?: boolean
+  totalReviews?: boolean
+  suspendido?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -515,12 +1385,22 @@ export type UserSelectScalar = {
   email?: boolean
   photo?: boolean
   telefono?: boolean
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: boolean
+  promedioCalificacion?: boolean
+  totalReviews?: boolean
+  suspendido?: boolean
   createdAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "googleId" | "name" | "email" | "photo" | "telefono" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "googleId" | "name" | "email" | "photo" | "telefono" | "telefonoVerificado" | "telefonoVerificadoEn" | "promedioCalificacion" | "totalReviews" | "suspendido" | "createdAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   favores?: boolean | Prisma.User$favoresArgs<ExtArgs>
+  reviewsEscritas?: boolean | Prisma.User$reviewsEscritasArgs<ExtArgs>
+  reviewsRecibidas?: boolean | Prisma.User$reviewsRecibidasArgs<ExtArgs>
+  conexionesSolicitante?: boolean | Prisma.User$conexionesSolicitanteArgs<ExtArgs>
+  conexionesAyudante?: boolean | Prisma.User$conexionesAyudanteArgs<ExtArgs>
+  verificacionTelefono?: boolean | Prisma.User$verificacionTelefonoArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -530,6 +1410,11 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     favores: Prisma.$FavorPayload<ExtArgs>[]
+    reviewsEscritas: Prisma.$ReviewPayload<ExtArgs>[]
+    reviewsRecibidas: Prisma.$ReviewPayload<ExtArgs>[]
+    conexionesSolicitante: Prisma.$FavorConexionPayload<ExtArgs>[]
+    conexionesAyudante: Prisma.$FavorConexionPayload<ExtArgs>[]
+    verificacionTelefono: Prisma.$VerificacionTelefonoPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -538,6 +1423,11 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     email: string
     photo: string | null
     telefono: string | null
+    telefonoVerificado: boolean
+    telefonoVerificadoEn: Date | null
+    promedioCalificacion: number | null
+    totalReviews: number
+    suspendido: boolean
     createdAt: Date
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -934,6 +1824,11 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   favores<T extends Prisma.User$favoresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$favoresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewsEscritas<T extends Prisma.User$reviewsEscritasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsEscritasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewsRecibidas<T extends Prisma.User$reviewsRecibidasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsRecibidasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  conexionesSolicitante<T extends Prisma.User$conexionesSolicitanteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conexionesSolicitanteArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavorConexionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  conexionesAyudante<T extends Prisma.User$conexionesAyudanteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conexionesAyudanteArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavorConexionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  verificacionTelefono<T extends Prisma.User$verificacionTelefonoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$verificacionTelefonoArgs<ExtArgs>>): Prisma.Prisma__VerificacionTelefonoClient<runtime.Types.Result.GetResult<Prisma.$VerificacionTelefonoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -969,6 +1864,11 @@ export interface UserFieldRefs {
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly photo: Prisma.FieldRef<"User", 'String'>
   readonly telefono: Prisma.FieldRef<"User", 'String'>
+  readonly telefonoVerificado: Prisma.FieldRef<"User", 'Boolean'>
+  readonly telefonoVerificadoEn: Prisma.FieldRef<"User", 'DateTime'>
+  readonly promedioCalificacion: Prisma.FieldRef<"User", 'Float'>
+  readonly totalReviews: Prisma.FieldRef<"User", 'Int'>
+  readonly suspendido: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
@@ -1384,6 +2284,121 @@ export type User$favoresArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.FavorScalarFieldEnum | Prisma.FavorScalarFieldEnum[]
+}
+
+/**
+ * User.reviewsEscritas
+ */
+export type User$reviewsEscritasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+}
+
+/**
+ * User.reviewsRecibidas
+ */
+export type User$reviewsRecibidasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+}
+
+/**
+ * User.conexionesSolicitante
+ */
+export type User$conexionesSolicitanteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FavorConexion
+   */
+  select?: Prisma.FavorConexionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FavorConexion
+   */
+  omit?: Prisma.FavorConexionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FavorConexionInclude<ExtArgs> | null
+  where?: Prisma.FavorConexionWhereInput
+  orderBy?: Prisma.FavorConexionOrderByWithRelationInput | Prisma.FavorConexionOrderByWithRelationInput[]
+  cursor?: Prisma.FavorConexionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FavorConexionScalarFieldEnum | Prisma.FavorConexionScalarFieldEnum[]
+}
+
+/**
+ * User.conexionesAyudante
+ */
+export type User$conexionesAyudanteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FavorConexion
+   */
+  select?: Prisma.FavorConexionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FavorConexion
+   */
+  omit?: Prisma.FavorConexionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FavorConexionInclude<ExtArgs> | null
+  where?: Prisma.FavorConexionWhereInput
+  orderBy?: Prisma.FavorConexionOrderByWithRelationInput | Prisma.FavorConexionOrderByWithRelationInput[]
+  cursor?: Prisma.FavorConexionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FavorConexionScalarFieldEnum | Prisma.FavorConexionScalarFieldEnum[]
+}
+
+/**
+ * User.verificacionTelefono
+ */
+export type User$verificacionTelefonoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VerificacionTelefono
+   */
+  select?: Prisma.VerificacionTelefonoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VerificacionTelefono
+   */
+  omit?: Prisma.VerificacionTelefonoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VerificacionTelefonoInclude<ExtArgs> | null
+  where?: Prisma.VerificacionTelefonoWhereInput
 }
 
 /**

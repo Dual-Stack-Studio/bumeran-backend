@@ -28,7 +28,14 @@ export class GoogleAuthService {
     try {
       ticket = await this.client.verifyIdToken({
         idToken,
-        audience: process.env.GOOGLE_CLIENT_ID,
+        // Acepta tokens de cualquier cliente OAuth configurado en el proyecto
+        // (web, Android, iOS). Si GOOGLE_ANDROID_CLIENT_ID está definido, lo incluye.
+        audience: [
+          process.env.GOOGLE_CLIENT_ID!,
+          ...(process.env.GOOGLE_ANDROID_CLIENT_ID
+            ? [process.env.GOOGLE_ANDROID_CLIENT_ID]
+            : []),
+        ],
       });
     } catch {
       throw new UnauthorizedException('Token de Google inválido');

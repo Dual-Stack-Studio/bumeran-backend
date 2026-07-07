@@ -1,7 +1,7 @@
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
-  ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import type { Favor } from '../generated/prisma/client';
@@ -49,6 +49,16 @@ export class FavoresService {
   }
 
   async create(dto: CreateFavorDto, userId: string): Promise<Favor> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { suspendido: true },
+    });
+    if (user?.suspendido) {
+      throw new ForbiddenException(
+        'Tu cuenta está suspendida por calificaciones negativas. No podés crear nuevas publicaciones.',
+      );
+    }
+
     return await this.prisma.favor.create({
       data: {
         tipo: dto.tipo,

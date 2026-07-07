@@ -49,3 +49,18 @@ export type User = Prisma.UserModel
  * 
  */
 export type Favor = Prisma.FavorModel
+/**
+ * Model FavorConexion
+ * 
+ */
+export type FavorConexion = Prisma.FavorConexionModel
+/**
+ * Model Review
+ * 
+ */
+export type Review = Prisma.ReviewModel
+/**
+ * Model VerificacionTelefono
+ * 
+ */
+export type VerificacionTelefono = Prisma.VerificacionTelefonoModel

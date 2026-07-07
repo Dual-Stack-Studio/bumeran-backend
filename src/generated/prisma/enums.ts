@@ -21,7 +21,18 @@ export type TipoFavor = (typeof TipoFavor)[keyof typeof TipoFavor]
 export const EstadoFavor = {
   abierto: 'abierto',
   en_proceso: 'en_proceso',
-  cerrado: 'cerrado'
+  cerrado: 'cerrado',
+  cancelado: 'cancelado'
 } as const
 
 export type EstadoFavor = (typeof EstadoFavor)[keyof typeof EstadoFavor]
+
+
+export const EstadoConexion = {
+  pendiente: 'pendiente',
+  aceptada: 'aceptada',
+  completada: 'completada',
+  cancelada: 'cancelada'
+} as const
+
+export type EstadoConexion = (typeof EstadoConexion)[keyof typeof EstadoConexion]

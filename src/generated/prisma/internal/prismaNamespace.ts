@@ -385,7 +385,10 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
-  Favor: 'Favor'
+  Favor: 'Favor',
+  FavorConexion: 'FavorConexion',
+  Review: 'Review',
+  VerificacionTelefono: 'VerificacionTelefono'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "favor"
+    modelProps: "user" | "favor" | "favorConexion" | "review" | "verificacionTelefono"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +556,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FavorConexion: {
+      payload: Prisma.$FavorConexionPayload<ExtArgs>
+      fields: Prisma.FavorConexionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FavorConexionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavorConexionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FavorConexionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavorConexionPayload>
+        }
+        findFirst: {
+          args: Prisma.FavorConexionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavorConexionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FavorConexionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavorConexionPayload>
+        }
+        findMany: {
+          args: Prisma.FavorConexionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavorConexionPayload>[]
+        }
+        create: {
+          args: Prisma.FavorConexionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavorConexionPayload>
+        }
+        createMany: {
+          args: Prisma.FavorConexionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FavorConexionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavorConexionPayload>[]
+        }
+        delete: {
+          args: Prisma.FavorConexionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavorConexionPayload>
+        }
+        update: {
+          args: Prisma.FavorConexionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavorConexionPayload>
+        }
+        deleteMany: {
+          args: Prisma.FavorConexionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FavorConexionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FavorConexionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavorConexionPayload>[]
+        }
+        upsert: {
+          args: Prisma.FavorConexionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavorConexionPayload>
+        }
+        aggregate: {
+          args: Prisma.FavorConexionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFavorConexion>
+        }
+        groupBy: {
+          args: Prisma.FavorConexionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FavorConexionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FavorConexionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FavorConexionCountAggregateOutputType> | number
+        }
+      }
+    }
+    Review: {
+      payload: Prisma.$ReviewPayload<ExtArgs>
+      fields: Prisma.ReviewFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ReviewFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ReviewFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>
+        }
+        findFirst: {
+          args: Prisma.ReviewFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ReviewFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>
+        }
+        findMany: {
+          args: Prisma.ReviewFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>[]
+        }
+        create: {
+          args: Prisma.ReviewCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>
+        }
+        createMany: {
+          args: Prisma.ReviewCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ReviewCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>[]
+        }
+        delete: {
+          args: Prisma.ReviewDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>
+        }
+        update: {
+          args: Prisma.ReviewUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>
+        }
+        deleteMany: {
+          args: Prisma.ReviewDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ReviewUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ReviewUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>[]
+        }
+        upsert: {
+          args: Prisma.ReviewUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReviewPayload>
+        }
+        aggregate: {
+          args: Prisma.ReviewAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReview>
+        }
+        groupBy: {
+          args: Prisma.ReviewGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReviewGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ReviewCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReviewCountAggregateOutputType> | number
+        }
+      }
+    }
+    VerificacionTelefono: {
+      payload: Prisma.$VerificacionTelefonoPayload<ExtArgs>
+      fields: Prisma.VerificacionTelefonoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VerificacionTelefonoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificacionTelefonoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VerificacionTelefonoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificacionTelefonoPayload>
+        }
+        findFirst: {
+          args: Prisma.VerificacionTelefonoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificacionTelefonoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VerificacionTelefonoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificacionTelefonoPayload>
+        }
+        findMany: {
+          args: Prisma.VerificacionTelefonoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificacionTelefonoPayload>[]
+        }
+        create: {
+          args: Prisma.VerificacionTelefonoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificacionTelefonoPayload>
+        }
+        createMany: {
+          args: Prisma.VerificacionTelefonoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VerificacionTelefonoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificacionTelefonoPayload>[]
+        }
+        delete: {
+          args: Prisma.VerificacionTelefonoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificacionTelefonoPayload>
+        }
+        update: {
+          args: Prisma.VerificacionTelefonoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificacionTelefonoPayload>
+        }
+        deleteMany: {
+          args: Prisma.VerificacionTelefonoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VerificacionTelefonoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VerificacionTelefonoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificacionTelefonoPayload>[]
+        }
+        upsert: {
+          args: Prisma.VerificacionTelefonoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificacionTelefonoPayload>
+        }
+        aggregate: {
+          args: Prisma.VerificacionTelefonoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVerificacionTelefono>
+        }
+        groupBy: {
+          args: Prisma.VerificacionTelefonoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VerificacionTelefonoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VerificacionTelefonoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VerificacionTelefonoCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -599,6 +824,11 @@ export const UserScalarFieldEnum = {
   email: 'email',
   photo: 'photo',
   telefono: 'telefono',
+  telefonoVerificado: 'telefonoVerificado',
+  telefonoVerificadoEn: 'telefonoVerificadoEn',
+  promedioCalificacion: 'promedioCalificacion',
+  totalReviews: 'totalReviews',
+  suspendido: 'suspendido',
   createdAt: 'createdAt'
 } as const
 
@@ -621,6 +851,43 @@ export const FavorScalarFieldEnum = {
 } as const
 
 export type FavorScalarFieldEnum = (typeof FavorScalarFieldEnum)[keyof typeof FavorScalarFieldEnum]
+
+
+export const FavorConexionScalarFieldEnum = {
+  id: 'id',
+  favorId: 'favorId',
+  solicitanteId: 'solicitanteId',
+  ayudanteId: 'ayudanteId',
+  estado: 'estado',
+  creadoEn: 'creadoEn'
+} as const
+
+export type FavorConexionScalarFieldEnum = (typeof FavorConexionScalarFieldEnum)[keyof typeof FavorConexionScalarFieldEnum]
+
+
+export const ReviewScalarFieldEnum = {
+  id: 'id',
+  favorId: 'favorId',
+  autorId: 'autorId',
+  destinatarioId: 'destinatarioId',
+  estrellas: 'estrellas',
+  comentario: 'comentario',
+  creadoEn: 'creadoEn'
+} as const
+
+export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+export const VerificacionTelefonoScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  telefono: 'telefono',
+  codigo: 'codigo',
+  expiraEn: 'expiraEn',
+  creadoEn: 'creadoEn'
+} as const
+
+export type VerificacionTelefonoScalarFieldEnum = (typeof VerificacionTelefonoScalarFieldEnum)[keyof typeof VerificacionTelefonoScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -668,6 +935,13 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -678,20 +952,6 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-/**
- * Reference to a field of type 'TipoFavor'
- */
-export type EnumTipoFavorFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoFavor'>
-    
-
-
-/**
- * Reference to a field of type 'TipoFavor[]'
- */
-export type ListEnumTipoFavorFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoFavor[]'>
     
 
 
@@ -710,6 +970,34 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TipoFavor'
+ */
+export type EnumTipoFavorFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoFavor'>
+    
+
+
+/**
+ * Reference to a field of type 'TipoFavor[]'
+ */
+export type ListEnumTipoFavorFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoFavor[]'>
+    
+
+
+/**
  * Reference to a field of type 'EstadoFavor'
  */
 export type EnumEstadoFavorFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoFavor'>
@@ -724,16 +1012,16 @@ export type ListEnumEstadoFavorFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
- * Reference to a field of type 'Int'
+ * Reference to a field of type 'EstadoConexion'
  */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+export type EnumEstadoConexionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoConexion'>
     
 
 
 /**
- * Reference to a field of type 'Int[]'
+ * Reference to a field of type 'EstadoConexion[]'
  */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+export type ListEnumEstadoConexionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoConexion[]'>
     
 
 /**
@@ -848,6 +1136,9 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   favor?: Prisma.FavorOmit
+  favorConexion?: Prisma.FavorConexionOmit
+  review?: Prisma.ReviewOmit
+  verificacionTelefono?: Prisma.VerificacionTelefonoOmit
 }
 
 /* Types for Logging */

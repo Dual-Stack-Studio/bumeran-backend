@@ -277,6 +277,8 @@ export type FavorWhereInput = {
   telefonoContacto?: Prisma.StringNullableFilter<"Favor"> | string | null
   userId?: Prisma.StringNullableFilter<"Favor"> | string | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  reviews?: Prisma.ReviewListRelationFilter
+  conexiones?: Prisma.FavorConexionListRelationFilter
 }
 
 export type FavorOrderByWithRelationInput = {
@@ -293,6 +295,8 @@ export type FavorOrderByWithRelationInput = {
   telefonoContacto?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
+  conexiones?: Prisma.FavorConexionOrderByRelationAggregateInput
 }
 
 export type FavorWhereUniqueInput = Prisma.AtLeast<{
@@ -312,6 +316,8 @@ export type FavorWhereUniqueInput = Prisma.AtLeast<{
   telefonoContacto?: Prisma.StringNullableFilter<"Favor"> | string | null
   userId?: Prisma.StringNullableFilter<"Favor"> | string | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  reviews?: Prisma.ReviewListRelationFilter
+  conexiones?: Prisma.FavorConexionListRelationFilter
 }, "id">
 
 export type FavorOrderByWithAggregationInput = {
@@ -365,6 +371,8 @@ export type FavorCreateInput = {
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
   user?: Prisma.UserCreateNestedOneWithoutFavoresInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutFavorInput
+  conexiones?: Prisma.FavorConexionCreateNestedManyWithoutFavorInput
 }
 
 export type FavorUncheckedCreateInput = {
@@ -380,6 +388,8 @@ export type FavorUncheckedCreateInput = {
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
   userId?: string | null
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutFavorInput
+  conexiones?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutFavorInput
 }
 
 export type FavorUpdateInput = {
@@ -395,6 +405,8 @@ export type FavorUpdateInput = {
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneWithoutFavoresNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutFavorNestedInput
+  conexiones?: Prisma.FavorConexionUpdateManyWithoutFavorNestedInput
 }
 
 export type FavorUncheckedUpdateInput = {
@@ -410,6 +422,8 @@ export type FavorUncheckedUpdateInput = {
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutFavorNestedInput
+  conexiones?: Prisma.FavorConexionUncheckedUpdateManyWithoutFavorNestedInput
 }
 
 export type FavorCreateManyInput = {
@@ -521,6 +535,11 @@ export type FavorSumOrderByAggregateInput = {
   longitude?: Prisma.SortOrder
 }
 
+export type FavorScalarRelationFilter = {
+  is?: Prisma.FavorWhereInput
+  isNot?: Prisma.FavorWhereInput
+}
+
 export type FavorCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.FavorCreateWithoutUserInput, Prisma.FavorUncheckedCreateWithoutUserInput> | Prisma.FavorCreateWithoutUserInput[] | Prisma.FavorUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.FavorCreateOrConnectWithoutUserInput | Prisma.FavorCreateOrConnectWithoutUserInput[]
@@ -579,8 +598,32 @@ export type EnumEstadoFavorFieldUpdateOperationsInput = {
   set?: $Enums.EstadoFavor
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
+export type FavorCreateNestedOneWithoutConexionesInput = {
+  create?: Prisma.XOR<Prisma.FavorCreateWithoutConexionesInput, Prisma.FavorUncheckedCreateWithoutConexionesInput>
+  connectOrCreate?: Prisma.FavorCreateOrConnectWithoutConexionesInput
+  connect?: Prisma.FavorWhereUniqueInput
+}
+
+export type FavorUpdateOneRequiredWithoutConexionesNestedInput = {
+  create?: Prisma.XOR<Prisma.FavorCreateWithoutConexionesInput, Prisma.FavorUncheckedCreateWithoutConexionesInput>
+  connectOrCreate?: Prisma.FavorCreateOrConnectWithoutConexionesInput
+  upsert?: Prisma.FavorUpsertWithoutConexionesInput
+  connect?: Prisma.FavorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FavorUpdateToOneWithWhereWithoutConexionesInput, Prisma.FavorUpdateWithoutConexionesInput>, Prisma.FavorUncheckedUpdateWithoutConexionesInput>
+}
+
+export type FavorCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.FavorCreateWithoutReviewsInput, Prisma.FavorUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.FavorCreateOrConnectWithoutReviewsInput
+  connect?: Prisma.FavorWhereUniqueInput
+}
+
+export type FavorUpdateOneRequiredWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.FavorCreateWithoutReviewsInput, Prisma.FavorUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.FavorCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.FavorUpsertWithoutReviewsInput
+  connect?: Prisma.FavorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FavorUpdateToOneWithWhereWithoutReviewsInput, Prisma.FavorUpdateWithoutReviewsInput>, Prisma.FavorUncheckedUpdateWithoutReviewsInput>
 }
 
 export type FavorCreateWithoutUserInput = {
@@ -595,6 +638,8 @@ export type FavorCreateWithoutUserInput = {
   creadoEn?: Date | string
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
+  reviews?: Prisma.ReviewCreateNestedManyWithoutFavorInput
+  conexiones?: Prisma.FavorConexionCreateNestedManyWithoutFavorInput
 }
 
 export type FavorUncheckedCreateWithoutUserInput = {
@@ -609,6 +654,8 @@ export type FavorUncheckedCreateWithoutUserInput = {
   creadoEn?: Date | string
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutFavorInput
+  conexiones?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutFavorInput
 }
 
 export type FavorCreateOrConnectWithoutUserInput = {
@@ -655,6 +702,166 @@ export type FavorScalarWhereInput = {
   userId?: Prisma.StringNullableFilter<"Favor"> | string | null
 }
 
+export type FavorCreateWithoutConexionesInput = {
+  id?: string
+  tipo: $Enums.TipoFavor
+  titulo: string
+  descripcion: string
+  categoria: string
+  latitude: number
+  longitude: number
+  estado?: $Enums.EstadoFavor
+  creadoEn?: Date | string
+  expiraEn?: Date | string | null
+  telefonoContacto?: string | null
+  user?: Prisma.UserCreateNestedOneWithoutFavoresInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutFavorInput
+}
+
+export type FavorUncheckedCreateWithoutConexionesInput = {
+  id?: string
+  tipo: $Enums.TipoFavor
+  titulo: string
+  descripcion: string
+  categoria: string
+  latitude: number
+  longitude: number
+  estado?: $Enums.EstadoFavor
+  creadoEn?: Date | string
+  expiraEn?: Date | string | null
+  telefonoContacto?: string | null
+  userId?: string | null
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutFavorInput
+}
+
+export type FavorCreateOrConnectWithoutConexionesInput = {
+  where: Prisma.FavorWhereUniqueInput
+  create: Prisma.XOR<Prisma.FavorCreateWithoutConexionesInput, Prisma.FavorUncheckedCreateWithoutConexionesInput>
+}
+
+export type FavorUpsertWithoutConexionesInput = {
+  update: Prisma.XOR<Prisma.FavorUpdateWithoutConexionesInput, Prisma.FavorUncheckedUpdateWithoutConexionesInput>
+  create: Prisma.XOR<Prisma.FavorCreateWithoutConexionesInput, Prisma.FavorUncheckedCreateWithoutConexionesInput>
+  where?: Prisma.FavorWhereInput
+}
+
+export type FavorUpdateToOneWithWhereWithoutConexionesInput = {
+  where?: Prisma.FavorWhereInput
+  data: Prisma.XOR<Prisma.FavorUpdateWithoutConexionesInput, Prisma.FavorUncheckedUpdateWithoutConexionesInput>
+}
+
+export type FavorUpdateWithoutConexionesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo?: Prisma.EnumTipoFavorFieldUpdateOperationsInput | $Enums.TipoFavor
+  titulo?: Prisma.StringFieldUpdateOperationsInput | string
+  descripcion?: Prisma.StringFieldUpdateOperationsInput | string
+  categoria?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  estado?: Prisma.EnumEstadoFavorFieldUpdateOperationsInput | $Enums.EstadoFavor
+  creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user?: Prisma.UserUpdateOneWithoutFavoresNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutFavorNestedInput
+}
+
+export type FavorUncheckedUpdateWithoutConexionesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo?: Prisma.EnumTipoFavorFieldUpdateOperationsInput | $Enums.TipoFavor
+  titulo?: Prisma.StringFieldUpdateOperationsInput | string
+  descripcion?: Prisma.StringFieldUpdateOperationsInput | string
+  categoria?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  estado?: Prisma.EnumEstadoFavorFieldUpdateOperationsInput | $Enums.EstadoFavor
+  creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutFavorNestedInput
+}
+
+export type FavorCreateWithoutReviewsInput = {
+  id?: string
+  tipo: $Enums.TipoFavor
+  titulo: string
+  descripcion: string
+  categoria: string
+  latitude: number
+  longitude: number
+  estado?: $Enums.EstadoFavor
+  creadoEn?: Date | string
+  expiraEn?: Date | string | null
+  telefonoContacto?: string | null
+  user?: Prisma.UserCreateNestedOneWithoutFavoresInput
+  conexiones?: Prisma.FavorConexionCreateNestedManyWithoutFavorInput
+}
+
+export type FavorUncheckedCreateWithoutReviewsInput = {
+  id?: string
+  tipo: $Enums.TipoFavor
+  titulo: string
+  descripcion: string
+  categoria: string
+  latitude: number
+  longitude: number
+  estado?: $Enums.EstadoFavor
+  creadoEn?: Date | string
+  expiraEn?: Date | string | null
+  telefonoContacto?: string | null
+  userId?: string | null
+  conexiones?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutFavorInput
+}
+
+export type FavorCreateOrConnectWithoutReviewsInput = {
+  where: Prisma.FavorWhereUniqueInput
+  create: Prisma.XOR<Prisma.FavorCreateWithoutReviewsInput, Prisma.FavorUncheckedCreateWithoutReviewsInput>
+}
+
+export type FavorUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.FavorUpdateWithoutReviewsInput, Prisma.FavorUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.FavorCreateWithoutReviewsInput, Prisma.FavorUncheckedCreateWithoutReviewsInput>
+  where?: Prisma.FavorWhereInput
+}
+
+export type FavorUpdateToOneWithWhereWithoutReviewsInput = {
+  where?: Prisma.FavorWhereInput
+  data: Prisma.XOR<Prisma.FavorUpdateWithoutReviewsInput, Prisma.FavorUncheckedUpdateWithoutReviewsInput>
+}
+
+export type FavorUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo?: Prisma.EnumTipoFavorFieldUpdateOperationsInput | $Enums.TipoFavor
+  titulo?: Prisma.StringFieldUpdateOperationsInput | string
+  descripcion?: Prisma.StringFieldUpdateOperationsInput | string
+  categoria?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  estado?: Prisma.EnumEstadoFavorFieldUpdateOperationsInput | $Enums.EstadoFavor
+  creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user?: Prisma.UserUpdateOneWithoutFavoresNestedInput
+  conexiones?: Prisma.FavorConexionUpdateManyWithoutFavorNestedInput
+}
+
+export type FavorUncheckedUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo?: Prisma.EnumTipoFavorFieldUpdateOperationsInput | $Enums.TipoFavor
+  titulo?: Prisma.StringFieldUpdateOperationsInput | string
+  descripcion?: Prisma.StringFieldUpdateOperationsInput | string
+  categoria?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  estado?: Prisma.EnumEstadoFavorFieldUpdateOperationsInput | $Enums.EstadoFavor
+  creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  conexiones?: Prisma.FavorConexionUncheckedUpdateManyWithoutFavorNestedInput
+}
+
 export type FavorCreateManyUserInput = {
   id?: string
   tipo: $Enums.TipoFavor
@@ -681,6 +888,8 @@ export type FavorUpdateWithoutUserInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviews?: Prisma.ReviewUpdateManyWithoutFavorNestedInput
+  conexiones?: Prisma.FavorConexionUpdateManyWithoutFavorNestedInput
 }
 
 export type FavorUncheckedUpdateWithoutUserInput = {
@@ -695,6 +904,8 @@ export type FavorUncheckedUpdateWithoutUserInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutFavorNestedInput
+  conexiones?: Prisma.FavorConexionUncheckedUpdateManyWithoutFavorNestedInput
 }
 
 export type FavorUncheckedUpdateManyWithoutUserInput = {
@@ -712,6 +923,44 @@ export type FavorUncheckedUpdateManyWithoutUserInput = {
 }
 
 
+/**
+ * Count Type FavorCountOutputType
+ */
+
+export type FavorCountOutputType = {
+  reviews: number
+  conexiones: number
+}
+
+export type FavorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reviews?: boolean | FavorCountOutputTypeCountReviewsArgs
+  conexiones?: boolean | FavorCountOutputTypeCountConexionesArgs
+}
+
+/**
+ * FavorCountOutputType without action
+ */
+export type FavorCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FavorCountOutputType
+   */
+  select?: Prisma.FavorCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * FavorCountOutputType without action
+ */
+export type FavorCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
+
+/**
+ * FavorCountOutputType without action
+ */
+export type FavorCountOutputTypeCountConexionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FavorConexionWhereInput
+}
+
 
 export type FavorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -727,6 +976,9 @@ export type FavorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   telefonoContacto?: boolean
   userId?: boolean
   user?: boolean | Prisma.Favor$userArgs<ExtArgs>
+  reviews?: boolean | Prisma.Favor$reviewsArgs<ExtArgs>
+  conexiones?: boolean | Prisma.Favor$conexionesArgs<ExtArgs>
+  _count?: boolean | Prisma.FavorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["favor"]>
 
 export type FavorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -779,6 +1031,9 @@ export type FavorSelectScalar = {
 export type FavorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tipo" | "titulo" | "descripcion" | "categoria" | "latitude" | "longitude" | "estado" | "creadoEn" | "expiraEn" | "telefonoContacto" | "userId", ExtArgs["result"]["favor"]>
 export type FavorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Favor$userArgs<ExtArgs>
+  reviews?: boolean | Prisma.Favor$reviewsArgs<ExtArgs>
+  conexiones?: boolean | Prisma.Favor$conexionesArgs<ExtArgs>
+  _count?: boolean | Prisma.FavorCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FavorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Favor$userArgs<ExtArgs>
@@ -791,6 +1046,8 @@ export type $FavorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Favor"
   objects: {
     user: Prisma.$UserPayload<ExtArgs> | null
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
+    conexiones: Prisma.$FavorConexionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1200,6 +1457,8 @@ readonly fields: FavorFieldRefs;
 export interface Prisma__FavorClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.Favor$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Favor$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  reviews<T extends Prisma.Favor$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Favor$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  conexiones<T extends Prisma.Favor$conexionesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Favor$conexionesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavorConexionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1658,6 +1917,54 @@ export type Favor$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   include?: Prisma.UserInclude<ExtArgs> | null
   where?: Prisma.UserWhereInput
+}
+
+/**
+ * Favor.reviews
+ */
+export type Favor$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+}
+
+/**
+ * Favor.conexiones
+ */
+export type Favor$conexionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FavorConexion
+   */
+  select?: Prisma.FavorConexionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FavorConexion
+   */
+  omit?: Prisma.FavorConexionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FavorConexionInclude<ExtArgs> | null
+  where?: Prisma.FavorConexionWhereInput
+  orderBy?: Prisma.FavorConexionOrderByWithRelationInput | Prisma.FavorConexionOrderByWithRelationInput[]
+  cursor?: Prisma.FavorConexionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FavorConexionScalarFieldEnum | Prisma.FavorConexionScalarFieldEnum[]
 }
 
 /**

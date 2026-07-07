@@ -18,18 +18,36 @@ enum EstadoFavor {
   abierto
   en_proceso
   cerrado
+  cancelado
+}
+
+enum EstadoConexion {
+  pendiente
+  aceptada
+  completada
+  cancelada
 }
 
 model User {
-  id        String   @id @default(uuid())
-  googleId  String   @unique
-  name      String?
-  email     String   @unique
-  photo     String?
-  telefono  String?
-  createdAt DateTime @default(now())
+  id                   String    @id @default(uuid())
+  googleId             String    @unique
+  name                 String?
+  email                String    @unique
+  photo                String?
+  telefono             String?
+  telefonoVerificado   Boolean   @default(false)
+  telefonoVerificadoEn DateTime?
+  promedioCalificacion Float?
+  totalReviews         Int       @default(0)
+  suspendido           Boolean   @default(false)
+  createdAt            DateTime  @default(now())
 
-  favores Favor[]
+  favores               Favor[]
+  reviewsEscritas       Review[]         @relation("AutorReview")
+  reviewsRecibidas      Review[]         @relation("DestinatarioReview")
+  conexionesSolicitante FavorConexion[]  @relation("Solicitante")
+  conexionesAyudante    FavorConexion[]  @relation("Ayudante")
+  verificacionTelefono  VerificacionTelefono?
 
   @@map("users")
 }
@@ -47,8 +65,53 @@ model Favor {
   expiraEn         DateTime?
   telefonoContacto String?
 
-  userId String?
-  user   User?   @relation(fields: [userId], references: [id])
+  userId    String?
+  user      User?           @relation(fields: [userId], references: [id])
+  reviews   Review[]
+  conexiones FavorConexion[]
 
   @@map("favores")
+}
+
+model FavorConexion {
+  id            String         @id @default(uuid())
+  favorId       String
+  favor         Favor          @relation(fields: [favorId], references: [id])
+  solicitanteId String
+  solicitante   User           @relation("Solicitante", fields: [solicitanteId], references: [id])
+  ayudanteId    String
+  ayudante      User           @relation("Ayudante", fields: [ayudanteId], references: [id])
+  estado        EstadoConexion @default(pendiente)
+  creadoEn      DateTime       @default(now())
+
+  @@unique([favorId, ayudanteId])
+  @@map("favor_conexiones")
+}
+
+model Review {
+  id             String   @id @default(uuid())
+  favorId        String
+  favor          Favor    @relation(fields: [favorId], references: [id])
+  autorId        String
+  autor          User     @relation("AutorReview", fields: [autorId], references: [id])
+  destinatarioId String
+  destinatario   User     @relation("DestinatarioReview", fields: [destinatarioId], references: [id])
+  estrellas      Int
+  comentario     String?
+  creadoEn       DateTime @default(now())
+
+  @@unique([favorId, autorId])
+  @@map("reviews")
+}
+
+model VerificacionTelefono {
+  id       String   @id @default(uuid())
+  userId   String   @unique
+  user     User     @relation(fields: [userId], references: [id])
+  telefono String
+  codigo   String
+  expiraEn DateTime
+  creadoEn DateTime @default(now())
+
+  @@map("verificaciones_telefono")
 }

@@ -7,6 +7,9 @@ import { PrismaModule } from './prisma/prisma.module';
 import { FavoresModule } from './favores/favores.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { AuthModule } from './auth/auth.module';
+import { ReviewsModule } from './reviews/reviews.module';
+import { ConexionesModule } from './conexiones/conexiones.module';
+import { VerificacionModule } from './verificacion/verificacion.module';
 
 @Module({
   imports: [
@@ -24,6 +27,9 @@ import { AuthModule } from './auth/auth.module';
     FavoresModule,
     UsuariosModule,
     AuthModule,
+    ReviewsModule,
+    ConexionesModule,
+    VerificacionModule,
   ],
   controllers: [AppController],
   providers: [

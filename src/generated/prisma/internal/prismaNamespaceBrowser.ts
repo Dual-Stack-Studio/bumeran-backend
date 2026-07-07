@@ -52,7 +52,10 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Favor: 'Favor'
+  Favor: 'Favor',
+  FavorConexion: 'FavorConexion',
+  Review: 'Review',
+  VerificacionTelefono: 'VerificacionTelefono'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -78,6 +81,11 @@ export const UserScalarFieldEnum = {
   email: 'email',
   photo: 'photo',
   telefono: 'telefono',
+  telefonoVerificado: 'telefonoVerificado',
+  telefonoVerificadoEn: 'telefonoVerificadoEn',
+  promedioCalificacion: 'promedioCalificacion',
+  totalReviews: 'totalReviews',
+  suspendido: 'suspendido',
   createdAt: 'createdAt'
 } as const
 
@@ -100,6 +108,43 @@ export const FavorScalarFieldEnum = {
 } as const
 
 export type FavorScalarFieldEnum = (typeof FavorScalarFieldEnum)[keyof typeof FavorScalarFieldEnum]
+
+
+export const FavorConexionScalarFieldEnum = {
+  id: 'id',
+  favorId: 'favorId',
+  solicitanteId: 'solicitanteId',
+  ayudanteId: 'ayudanteId',
+  estado: 'estado',
+  creadoEn: 'creadoEn'
+} as const
+
+export type FavorConexionScalarFieldEnum = (typeof FavorConexionScalarFieldEnum)[keyof typeof FavorConexionScalarFieldEnum]
+
+
+export const ReviewScalarFieldEnum = {
+  id: 'id',
+  favorId: 'favorId',
+  autorId: 'autorId',
+  destinatarioId: 'destinatarioId',
+  estrellas: 'estrellas',
+  comentario: 'comentario',
+  creadoEn: 'creadoEn'
+} as const
+
+export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+export const VerificacionTelefonoScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  telefono: 'telefono',
+  codigo: 'codigo',
+  expiraEn: 'expiraEn',
+  creadoEn: 'creadoEn'
+} as const
+
+export type VerificacionTelefonoScalarFieldEnum = (typeof VerificacionTelefonoScalarFieldEnum)[keyof typeof VerificacionTelefonoScalarFieldEnum]
 
 
 export const SortOrder = {
