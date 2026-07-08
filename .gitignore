@@ -56,3 +56,8 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 /generated/prisma
+
+# Lock file omitido intencionalmente: Prisma v7+ usa binarios nativos (@emnapi)
+# que difieren entre Windows (dev) y Linux (Railway). Sin lock file, Railway corre
+# npm install fresco en Linux y resuelve los binarios correctos.
+package-lock.json
