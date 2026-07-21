@@ -44,7 +44,7 @@ export class VerificacionService {
       try {
         await this.twilio.messages.create({
           body: `Tu código de verificación para Bumerán es: ${codigo}. Expira en 10 minutos.`,
-          from: process.env.TWILIO_PHONE_NUMBER,
+          from: process.env.TWILIO_SENDER_ID ?? process.env.TWILIO_PHONE_NUMBER,
           to: telefono,
         });
       } catch (err: any) {
