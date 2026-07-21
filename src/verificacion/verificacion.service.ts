@@ -15,7 +15,7 @@ export class VerificacionService {
   async enviarCodigo(
     userId: string,
     telefono: string,
-  ): Promise<{ mensaje: string; codigo: string }> {
+  ): Promise<{ mensaje: string; codigo?: string }> {
     // En producción: integrar Twilio u otro proveedor SMS y NO devolver el código
     const codigo = Math.floor(100_000 + Math.random() * 900_000).toString();
     const expiraEn = new Date(Date.now() + CODIGO_EXPIRA_MS);
