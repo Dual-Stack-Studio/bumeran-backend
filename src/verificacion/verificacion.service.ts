@@ -32,9 +32,12 @@ export class VerificacionService {
       data: { telefono, telefonoVerificado: false },
     });
 
+    const esProduccion = process.env.NODE_ENV === 'production';
     return {
-      mensaje: 'Código generado (modo desarrollo — intégra Twilio en producción)',
-      codigo, // ← SOLO para testing local. Eliminá esto en producción.
+      mensaje: esProduccion
+        ? 'Código enviado por SMS'
+        : 'Código generado (modo desarrollo — intégra Twilio en producción)',
+      ...(esProduccion ? {} : { codigo }),
     };
   }
 

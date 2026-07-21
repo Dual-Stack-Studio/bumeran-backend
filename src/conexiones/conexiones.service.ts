@@ -27,11 +27,16 @@ export class ConexionesService {
 
     const ayudante = await this.prisma.user.findUnique({
       where: { id: ayudanteId },
-      select: { suspendido: true },
+      select: { suspendido: true, telefonoVerificado: true },
     });
     if (ayudante?.suspendido) {
       throw new ForbiddenException(
         'Tu cuenta está suspendida por calificaciones negativas. No podés conectarte a favores.',
+      );
+    }
+    if (!ayudante?.telefonoVerificado) {
+      throw new ForbiddenException(
+        'Necesitás verificar tu número de teléfono antes de conectarte con vecinos.',
       );
     }
 
