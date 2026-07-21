@@ -38,6 +38,13 @@ export class UsuariosService {
     });
   }
 
+  async guardarPushToken(userId: string, token: string): Promise<void> {
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { expoPushToken: token },
+    });
+  }
+
   async getPerfilPublico(id: string) {
     const user = await this.prisma.user.findUnique({
       where: { id },

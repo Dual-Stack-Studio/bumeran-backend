@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { ConexionesModule } from './conexiones/conexiones.module';
 import { VerificacionModule } from './verificacion/verificacion.module';
+import { NotificacionesModule } from './notificaciones/notificaciones.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { VerificacionModule } from './verificacion/verificacion.module';
     ReviewsModule,
     ConexionesModule,
     VerificacionModule,
+    NotificacionesModule,
   ],
   controllers: [AppController],
   providers: [

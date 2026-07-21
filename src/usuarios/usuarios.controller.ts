@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
 import type { User } from '../generated/prisma/client';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -11,6 +11,15 @@ interface RequestConUsuario extends Request {
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('push-token')
+  guardarPushToken(
+    @Req() req: RequestConUsuario,
+    @Body('token') token: string,
+  ) {
+    return this.usuariosService.guardarPushToken(req.user.id, token);
+  }
 
   @UseGuards(JwtAuthGuard)
   @Delete('me')

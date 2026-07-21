@@ -40,9 +40,11 @@ model User {
   promedioCalificacion Float?
   totalReviews         Int       @default(0)
   suspendido           Boolean   @default(false)
+  expoPushToken        String?
   createdAt            DateTime  @default(now())
 
   favores               Favor[]
+  notificaciones        Notificacion[]
   reviewsEscritas       Review[]         @relation("AutorReview")
   reviewsRecibidas      Review[]         @relation("DestinatarioReview")
   conexionesSolicitante FavorConexion[]  @relation("Solicitante")
@@ -102,6 +104,20 @@ model Review {
 
   @@unique([favorId, autorId])
   @@map("reviews")
+}
+
+model Notificacion {
+  id       String   @id @default(uuid())
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tipo     String
+  titulo   String
+  cuerpo   String
+  leida    Boolean  @default(false)
+  payload  Json?
+  creadoEn DateTime @default(now())
+
+  @@map("notificaciones")
 }
 
 model VerificacionTelefono {

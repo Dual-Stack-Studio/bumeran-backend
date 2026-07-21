@@ -6,13 +6,16 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { NotificacionesService } from '../notificaciones/notificaciones.service';
 import { CreateConexionDto } from './create-conexion.dto';
 
 @Injectable()
 export class ConexionesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly notificaciones: NotificacionesService,
+  ) {}
 
-  // El ayudante (quien ofrece ayuda) crea la conexión
   async create(dto: CreateConexionDto, ayudanteId: string) {
     const favor = await this.prisma.favor.findUnique({
       where: { id: dto.favorId },
@@ -47,7 +50,7 @@ export class ConexionesService {
       throw new ConflictException('Ya enviaste una solicitud para este favor');
     }
 
-    return this.prisma.favorConexion.create({
+    const resultado = await this.prisma.favorConexion.create({
       data: {
         favorId: dto.favorId,
         solicitanteId: favor.userId!,
@@ -59,12 +62,24 @@ export class ConexionesService {
         favor: { select: { id: true, titulo: true } },
       },
     });
+
+    if (favor.userId) {
+      void this.notificaciones.crear(
+        favor.userId,
+        'conexion_nueva',
+        'Nueva solicitud de ayuda',
+        `${resultado.ayudante.name ?? 'Alguien'} quiere ayudarte con «${resultado.favor.titulo}»`,
+        { favorId: favor.id, conexionId: resultado.id },
+      );
+    }
+
+    return resultado;
   }
 
-  // El dueño del favor acepta al ayudante
   async aceptar(id: string, userId: string) {
     const conexion = await this.prisma.favorConexion.findUnique({
       where: { id },
+      include: { favor: { select: { titulo: true } } },
     });
     if (!conexion) throw new NotFoundException('Conexión no encontrada');
     if (conexion.solicitanteId !== userId) {
@@ -85,19 +100,24 @@ export class ConexionesService {
       }),
     ]);
 
+    void this.notificaciones.crear(
+      conexion.ayudanteId,
+      'conexion_aceptada',
+      'Solicitud aceptada 🎉',
+      `Tu solicitud para «${conexion.favor.titulo}» fue aceptada.`,
+      { favorId: conexion.favorId, conexionId: id },
+    );
+
     return conexionActualizada;
   }
 
-  // Cualquiera de los dos participantes puede marcar como completado
   async completar(id: string, userId: string) {
     const conexion = await this.prisma.favorConexion.findUnique({
       where: { id },
+      include: { favor: { select: { titulo: true } } },
     });
     if (!conexion) throw new NotFoundException('Conexión no encontrada');
-    if (
-      conexion.solicitanteId !== userId &&
-      conexion.ayudanteId !== userId
-    ) {
+    if (conexion.solicitanteId !== userId && conexion.ayudanteId !== userId) {
       throw new ForbiddenException(
         'Solo los participantes pueden completar esta conexión',
       );
@@ -117,19 +137,27 @@ export class ConexionesService {
       }),
     ]);
 
+    const otroUsuarioId =
+      userId === conexion.solicitanteId ? conexion.ayudanteId : conexion.solicitanteId;
+
+    void this.notificaciones.crear(
+      otroUsuarioId,
+      'conexion_completada',
+      '¡Favor completado! ✅',
+      `«${conexion.favor.titulo}» fue completado. ¡Calificá tu experiencia!`,
+      { favorId: conexion.favorId, conexionId: id },
+    );
+
     return conexionActualizada;
   }
 
-  // Cancelar una conexión pendiente o aceptada
   async cancelar(id: string, userId: string) {
     const conexion = await this.prisma.favorConexion.findUnique({
       where: { id },
+      include: { favor: { select: { titulo: true } } },
     });
     if (!conexion) throw new NotFoundException('Conexión no encontrada');
-    if (
-      conexion.solicitanteId !== userId &&
-      conexion.ayudanteId !== userId
-    ) {
+    if (conexion.solicitanteId !== userId && conexion.ayudanteId !== userId) {
       throw new ForbiddenException('Solo los participantes pueden cancelar esta conexión');
     }
     if (conexion.estado === 'completada') {
@@ -141,13 +169,23 @@ export class ConexionesService {
       data: { estado: 'cancelada' },
     });
 
-    // Si estaba aceptada, el favor vuelve a abierto
     if (conexion.estado === 'aceptada') {
       await this.prisma.favor.update({
         where: { id: conexion.favorId },
         data: { estado: 'abierto' },
       });
     }
+
+    const otroUsuarioId =
+      userId === conexion.solicitanteId ? conexion.ayudanteId : conexion.solicitanteId;
+
+    void this.notificaciones.crear(
+      otroUsuarioId,
+      'conexion_cancelada',
+      'Conexión cancelada',
+      `La conexión para «${conexion.favor.titulo}» fue cancelada.`,
+      { favorId: conexion.favorId, conexionId: id },
+    );
 
     return conexionActualizada;
   }
