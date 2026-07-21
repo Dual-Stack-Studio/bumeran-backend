@@ -32,6 +32,7 @@ A favor comes in three flavors — **`necesito`** (I need something), **`ofrezco
 | Database | PostgreSQL |
 | Auth | Google Sign-In verification (`google-auth-library`) → JWT (`@nestjs/jwt` + Passport JWT) |
 | SMS | Twilio — 6-digit OTP for phone verification |
+| Push notifications | Expo Push API (`https://exp.host/--/expo-push/v2/push/send`) — fire-and-forget |
 | Security | Helmet, `@nestjs/throttler` (rate limiting), `class-validator` DTOs |
 | Deployment | Railway |
 
@@ -66,11 +67,12 @@ Anti-abuse: the same phone number cannot be verified on more than one account. I
 
 Prisma over PostgreSQL. Core entities:
 
-- **User** — `googleId`, `email`, `name`, `photo`, phone + verification fields (`telefono`, `telefonoVerificado`, `telefonoVerificadoEn`), rating aggregates (`promedioCalificacion`, `totalReviews`), `suspendido`.
-- **Favor** — `tipo` (`necesito` / `ofrezco` / `regalo`), `titulo`, `descripcion`, `categoria`, `latitude` / `longitude`, `estado` (`abierto` / `en_proceso` / `cerrado` / `cancelado`), `expiraEn`, `telefonoContacto`.
+- **User** — `googleId`, `email`, `name`, `photo`, phone + verification fields (`telefono`, `telefonoVerificado`, `telefonoVerificadoEn`), rating aggregates (`promedioCalificacion`, `totalReviews`), `suspendido`, `expoPushToken` (stored on login for push delivery).
+- **Favor** — `tipo` (`necesito` / `ofrezco` / `regalo`), `titulo`, `descripcion`, `categoria`, `latitude` / `longitude`, `estado` (`abierto` / `en_proceso` / `cerrado` / `cancelado`), `expiraEn`, `telefonoContacto`, `fotos` (array of Cloudinary URLs).
 - **FavorConexion** — links a helper (`ayudante`) to a requester (`solicitante`) on a favor; `estado` (`pendiente` → `aceptada` → `completada` / `cancelada`). Unique per `(favor, ayudante)`.
 - **Review** — `estrellas` + `comentario`, tied to a favor, an author and a recipient. Unique per `(favor, author)`.
 - **VerificacionTelefono** — one-time code + expiry for phone verification, upserted on each send request.
+- **Notificacion** — `tipo`, `titulo`, `cuerpo`, `leida`, `payload` (JSON with `favorId` / `conexionId`), `creadoEn`. Created automatically by connection lifecycle events and delivered via Expo Push API.
 
 ---
 
@@ -114,6 +116,14 @@ All routes are prefixed with **`/api`**. Protected routes (🔒) require a JWT.
 |--------|------|------|-------------|
 | GET | `/usuarios/:id` | — | Public user profile |
 | DELETE | `/usuarios/me` | 🔒 | Delete my account |
+| PATCH | `/usuarios/push-token` | 🔒 | Register / update Expo push token |
+
+### Notificaciones — `/api/notificaciones`
+| Method | Path | Auth | Description |
+|--------|------|------|-------------|
+| GET | `/notificaciones` | 🔒 | My last 50 notifications |
+| PATCH | `/notificaciones/leer-todas` | 🔒 | Mark all as read |
+| PATCH | `/notificaciones/:id/leer` | 🔒 | Mark one as read |
 
 ### Verificación — `/api/verificacion`
 | Method | Path | Auth | Description |
