@@ -18,7 +18,11 @@ export class VerificacionService {
     const sid = process.env.TWILIO_ACCOUNT_SID;
     const token = process.env.TWILIO_AUTH_TOKEN;
     if (sid && token) {
-      this.twilio = new Twilio(sid, token);
+      try {
+        this.twilio = new Twilio(sid, token);
+      } catch (e: any) {
+        console.error('[Twilio] No se pudo inicializar el cliente:', e.message);
+      }
     }
   }
 
