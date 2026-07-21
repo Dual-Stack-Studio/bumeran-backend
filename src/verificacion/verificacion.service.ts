@@ -2,21 +2,30 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { Twilio } from 'twilio';
 import { PrismaService } from '../prisma/prisma.service';
 
 const CODIGO_EXPIRA_MS = 10 * 60 * 1000; // 10 minutos
 
 @Injectable()
 export class VerificacionService {
-  constructor(private readonly prisma: PrismaService) {}
+  private twilio: Twilio | null = null;
+
+  constructor(private readonly prisma: PrismaService) {
+    const sid = process.env.TWILIO_ACCOUNT_SID;
+    const token = process.env.TWILIO_AUTH_TOKEN;
+    if (sid && token) {
+      this.twilio = new Twilio(sid, token);
+    }
+  }
 
   async enviarCodigo(
     userId: string,
     telefono: string,
   ): Promise<{ mensaje: string; codigo?: string }> {
-    // En producción: integrar Twilio u otro proveedor SMS y NO devolver el código
     const codigo = Math.floor(100_000 + Math.random() * 900_000).toString();
     const expiraEn = new Date(Date.now() + CODIGO_EXPIRA_MS);
 
@@ -26,18 +35,30 @@ export class VerificacionService {
       update: { telefono, codigo, expiraEn },
     });
 
-    // Actualizamos el teléfono en el perfil aunque todavía no esté verificado
     await this.prisma.user.update({
       where: { id: userId },
       data: { telefono, telefonoVerificado: false },
     });
 
-    const esProduccion = process.env.NODE_ENV === 'production';
+    if (this.twilio) {
+      try {
+        await this.twilio.messages.create({
+          body: `Tu código de verificación para Bumerán es: ${codigo}. Expira en 10 minutos.`,
+          from: process.env.TWILIO_PHONE_NUMBER,
+          to: telefono,
+        });
+      } catch (err: any) {
+        throw new InternalServerErrorException(
+          `No se pudo enviar el SMS: ${err.message}`,
+        );
+      }
+      return { mensaje: 'Código enviado por SMS' };
+    }
+
+    // Sin Twilio configurado: modo desarrollo, devolver el código
     return {
-      mensaje: esProduccion
-        ? 'Código enviado por SMS'
-        : 'Código generado (modo desarrollo — intégra Twilio en producción)',
-      ...(esProduccion ? {} : { codigo }),
+      mensaje: 'Código generado (modo desarrollo — Twilio no configurado)',
+      codigo,
     };
   }
 
