@@ -66,6 +66,7 @@ model Favor {
   creadoEn         DateTime    @default(now())
   expiraEn         DateTime?
   telefonoContacto String?
+  fotos            String[]  @default([])
 
   userId    String?
   user      User?           @relation(fields: [userId], references: [id])

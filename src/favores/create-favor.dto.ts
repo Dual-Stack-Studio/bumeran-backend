@@ -1,9 +1,11 @@
 import {
+  IsArray,
   IsDateString,
   IsEnum,
   IsNumber,
   IsOptional,
   IsString,
+  IsUrl,
   Max,
   Min,
   MinLength,
@@ -43,4 +45,9 @@ export class CreateFavorDto {
   @IsOptional()
   @IsString()
   telefonoContacto?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsUrl({}, { each: true })
+  fotos?: string[];
 }

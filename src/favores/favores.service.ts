@@ -69,6 +69,7 @@ export class FavoresService {
         longitude: dto.longitude,
         expiraEn: dto.expiraEn ? new Date(dto.expiraEn) : null,
         telefonoContacto: dto.telefonoContacto ?? null,
+        fotos: dto.fotos ?? [],
         userId,
       },
     });
