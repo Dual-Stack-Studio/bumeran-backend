@@ -7,6 +7,7 @@
   <img src="https://img.shields.io/badge/Prisma_7-2D3748?style=for-the-badge&logo=prisma&logoColor=white" alt="Prisma 7">
   <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Twilio-F22F46?style=for-the-badge&logo=twilio&logoColor=white" alt="Twilio">
 </p>
 
 ---
@@ -30,6 +31,7 @@ A favor comes in three flavors — **`necesito`** (I need something), **`ofrezco
 | ORM | Prisma 7 (with the `pg` driver adapter) |
 | Database | PostgreSQL |
 | Auth | Google Sign-In verification (`google-auth-library`) → JWT (`@nestjs/jwt` + Passport JWT) |
+| SMS | Twilio — 6-digit OTP for phone verification |
 | Security | Helmet, `@nestjs/throttler` (rate limiting), `class-validator` DTOs |
 | Deployment | Railway |
 
@@ -46,15 +48,29 @@ Bumerán has no passwords. Sign-in is delegated to Google:
 
 ---
 
+## 📱 Phone verification flow
+
+Before a user can connect with a neighbor, they must verify their phone number:
+
+1. `POST /api/verificacion/enviar` — stores a 6-digit code (expires in 10 min) and sends it via **Twilio SMS**.
+2. `POST /api/verificacion/confirmar` — validates the code, marks `telefonoVerificado = true` on the user.
+3. `POST /api/conexiones` — returns **403 Forbidden** if the requesting user's phone is not verified.
+
+Anti-abuse: the same phone number cannot be verified on more than one account. If a number is already verified on a different account, the confirmation step is rejected.
+
+> In development (Twilio not configured), the code is returned in the API response body for easy testing.
+
+---
+
 ## 🗄️ Data Model
 
 Prisma over PostgreSQL. Core entities:
 
-- **User** — `googleId`, `email`, `name`, `photo`, phone + verification fields, rating aggregates (`promedioCalificacion`, `totalReviews`), `suspendido`.
+- **User** — `googleId`, `email`, `name`, `photo`, phone + verification fields (`telefono`, `telefonoVerificado`, `telefonoVerificadoEn`), rating aggregates (`promedioCalificacion`, `totalReviews`), `suspendido`.
 - **Favor** — `tipo` (`necesito` / `ofrezco` / `regalo`), `titulo`, `descripcion`, `categoria`, `latitude` / `longitude`, `estado` (`abierto` / `en_proceso` / `cerrado` / `cancelado`), `expiraEn`, `telefonoContacto`.
 - **FavorConexion** — links a helper (`ayudante`) to a requester (`solicitante`) on a favor; `estado` (`pendiente` → `aceptada` → `completada` / `cancelada`). Unique per `(favor, ayudante)`.
 - **Review** — `estrellas` + `comentario`, tied to a favor, an author and a recipient. Unique per `(favor, author)`.
-- **VerificacionTelefono** — one-time code + expiry for phone verification.
+- **VerificacionTelefono** — one-time code + expiry for phone verification, upserted on each send request.
 
 ---
 
@@ -80,7 +96,7 @@ All routes are prefixed with **`/api`**. Protected routes (🔒) require a JWT.
 ### Conexiones — `/api/conexiones`
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
-| POST | `/conexiones` | 🔒 | Request a connection on a favor |
+| POST | `/conexiones` | 🔒 | Request a connection — **requires phone verified** |
 | PATCH | `/conexiones/:id/aceptar` | 🔒 | Accept a connection |
 | PATCH | `/conexiones/:id/completar` | 🔒 | Mark a connection completed |
 | PATCH | `/conexiones/:id/cancelar` | 🔒 | Cancel a connection |
@@ -102,9 +118,9 @@ All routes are prefixed with **`/api`**. Protected routes (🔒) require a JWT.
 ### Verificación — `/api/verificacion`
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
-| POST | `/verificacion/enviar` | 🔒 | Send a phone verification code |
-| POST | `/verificacion/confirmar` | 🔒 | Confirm the code |
-| GET | `/verificacion/estado` | 🔒 | Verification status |
+| POST | `/verificacion/enviar` | 🔒 | Send a 6-digit SMS code via Twilio |
+| POST | `/verificacion/confirmar` | 🔒 | Confirm the code; sets `telefonoVerificado = true` |
+| GET | `/verificacion/estado` | 🔒 | Current verification status |
 
 ---
 
@@ -125,6 +141,11 @@ JWT_ACCESS_SECRET=a_long_random_secret
 
 # CORS — the mobile app / web origin allowed to call the API
 FRONTEND_URL=http://localhost:8081
+
+# Twilio SMS (optional — if unset, the code is returned in the response for dev)
+TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TWILIO_AUTH_TOKEN=your_auth_token
+TWILIO_PHONE_NUMBER=+1xxxxxxxxxx
 ```
 
 ---
@@ -161,7 +182,7 @@ The API listens on `http://localhost:3000` with the global `/api` prefix.
 
 | Repo | Description |
 |------|-------------|
-| [Bumer-n-Client](https://github.com/Dual-Stack-Studio/Bumer-n-Client) | Bumerán mobile app — React Native + Expo |
+| [Bumer-n-Client](https://github.com/Dual-Stack-Studio/Bumer-n-Client) | Bumerán mobile app — React Native + Expo SDK 54 |
 
 ---
 
