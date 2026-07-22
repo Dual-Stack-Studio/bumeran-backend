@@ -8,7 +8,7 @@ import {
 import { Twilio } from 'twilio';
 import { PrismaService } from '../prisma/prisma.service';
 
-const CODIGO_EXPIRA_MS = 10 * 60 * 1000; // 10 minutos
+const CODIGO_EXPIRA_MS = 15 * 60 * 1000; // 15 minutos
 
 @Injectable()
 export class VerificacionService {
@@ -47,7 +47,7 @@ export class VerificacionService {
     if (this.twilio) {
       try {
         await this.twilio.messages.create({
-          body: `Tu código de verificación para Bumerán es: ${codigo}. Expira en 10 minutos.`,
+          body: `Tu código de verificación para Bumerán es: ${codigo}. Expira en 15 minutos.`,
           from: process.env.TWILIO_PHONE_NUMBER,
           to: telefono,
         });
