@@ -41,6 +41,12 @@ export class FavoresController {
     return data;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('mias')
+  findMine(@Req() req: RequestConUsuario) {
+    return this.favoresService.findMine(req.user.id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.favoresService.findOne(id);
