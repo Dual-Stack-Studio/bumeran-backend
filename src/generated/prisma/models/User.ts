@@ -48,6 +48,8 @@ export type UserMinAggregateOutputType = {
   promedioCalificacion: number | null
   totalReviews: number | null
   suspendido: boolean | null
+  isAdmin: boolean | null
+  expoPushToken: string | null
   createdAt: Date | null
 }
 
@@ -63,6 +65,8 @@ export type UserMaxAggregateOutputType = {
   promedioCalificacion: number | null
   totalReviews: number | null
   suspendido: boolean | null
+  isAdmin: boolean | null
+  expoPushToken: string | null
   createdAt: Date | null
 }
 
@@ -78,6 +82,8 @@ export type UserCountAggregateOutputType = {
   promedioCalificacion: number
   totalReviews: number
   suspendido: number
+  isAdmin: number
+  expoPushToken: number
   createdAt: number
   _all: number
 }
@@ -105,6 +111,8 @@ export type UserMinAggregateInputType = {
   promedioCalificacion?: true
   totalReviews?: true
   suspendido?: true
+  isAdmin?: true
+  expoPushToken?: true
   createdAt?: true
 }
 
@@ -120,6 +128,8 @@ export type UserMaxAggregateInputType = {
   promedioCalificacion?: true
   totalReviews?: true
   suspendido?: true
+  isAdmin?: true
+  expoPushToken?: true
   createdAt?: true
 }
 
@@ -135,6 +145,8 @@ export type UserCountAggregateInputType = {
   promedioCalificacion?: true
   totalReviews?: true
   suspendido?: true
+  isAdmin?: true
+  expoPushToken?: true
   createdAt?: true
   _all?: true
 }
@@ -237,6 +249,8 @@ export type UserGroupByOutputType = {
   promedioCalificacion: number | null
   totalReviews: number
   suspendido: boolean
+  isAdmin: boolean
+  expoPushToken: string | null
   createdAt: Date
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
@@ -275,8 +289,11 @@ export type UserWhereInput = {
   promedioCalificacion?: Prisma.FloatNullableFilter<"User"> | number | null
   totalReviews?: Prisma.IntFilter<"User"> | number
   suspendido?: Prisma.BoolFilter<"User"> | boolean
+  isAdmin?: Prisma.BoolFilter<"User"> | boolean
+  expoPushToken?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   favores?: Prisma.FavorListRelationFilter
+  notificaciones?: Prisma.NotificacionListRelationFilter
   reviewsEscritas?: Prisma.ReviewListRelationFilter
   reviewsRecibidas?: Prisma.ReviewListRelationFilter
   conexionesSolicitante?: Prisma.FavorConexionListRelationFilter
@@ -296,8 +313,11 @@ export type UserOrderByWithRelationInput = {
   promedioCalificacion?: Prisma.SortOrderInput | Prisma.SortOrder
   totalReviews?: Prisma.SortOrder
   suspendido?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
+  expoPushToken?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   favores?: Prisma.FavorOrderByRelationAggregateInput
+  notificaciones?: Prisma.NotificacionOrderByRelationAggregateInput
   reviewsEscritas?: Prisma.ReviewOrderByRelationAggregateInput
   reviewsRecibidas?: Prisma.ReviewOrderByRelationAggregateInput
   conexionesSolicitante?: Prisma.FavorConexionOrderByRelationAggregateInput
@@ -320,8 +340,11 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   promedioCalificacion?: Prisma.FloatNullableFilter<"User"> | number | null
   totalReviews?: Prisma.IntFilter<"User"> | number
   suspendido?: Prisma.BoolFilter<"User"> | boolean
+  isAdmin?: Prisma.BoolFilter<"User"> | boolean
+  expoPushToken?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   favores?: Prisma.FavorListRelationFilter
+  notificaciones?: Prisma.NotificacionListRelationFilter
   reviewsEscritas?: Prisma.ReviewListRelationFilter
   reviewsRecibidas?: Prisma.ReviewListRelationFilter
   conexionesSolicitante?: Prisma.FavorConexionListRelationFilter
@@ -341,6 +364,8 @@ export type UserOrderByWithAggregationInput = {
   promedioCalificacion?: Prisma.SortOrderInput | Prisma.SortOrder
   totalReviews?: Prisma.SortOrder
   suspendido?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
+  expoPushToken?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
@@ -364,6 +389,8 @@ export type UserScalarWhereWithAggregatesInput = {
   promedioCalificacion?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
   totalReviews?: Prisma.IntWithAggregatesFilter<"User"> | number
   suspendido?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  isAdmin?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  expoPushToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
 
@@ -379,8 +406,11 @@ export type UserCreateInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
   favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUserInput
   reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
   reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
   conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
@@ -400,8 +430,11 @@ export type UserUncheckedCreateInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
   favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUserInput
   reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
   reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
   conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
@@ -421,8 +454,11 @@ export type UserUpdateInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  notificaciones?: Prisma.NotificacionUpdateManyWithoutUserNestedInput
   reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
   reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
   conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
@@ -442,8 +478,11 @@ export type UserUncheckedUpdateInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
+  notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUserNestedInput
   reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
   reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
   conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
@@ -463,6 +502,8 @@ export type UserCreateManyInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
 }
 
@@ -478,6 +519,8 @@ export type UserUpdateManyMutationInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -493,6 +536,8 @@ export type UserUncheckedUpdateManyInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -508,6 +553,8 @@ export type UserCountOrderByAggregateInput = {
   promedioCalificacion?: Prisma.SortOrder
   totalReviews?: Prisma.SortOrder
   suspendido?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
+  expoPushToken?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -528,6 +575,8 @@ export type UserMaxOrderByAggregateInput = {
   promedioCalificacion?: Prisma.SortOrder
   totalReviews?: Prisma.SortOrder
   suspendido?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
+  expoPushToken?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -543,6 +592,8 @@ export type UserMinOrderByAggregateInput = {
   promedioCalificacion?: Prisma.SortOrder
   totalReviews?: Prisma.SortOrder
   suspendido?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
+  expoPushToken?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -669,6 +720,20 @@ export type UserUpdateOneRequiredWithoutReviewsRecibidasNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsRecibidasInput, Prisma.UserUpdateWithoutReviewsRecibidasInput>, Prisma.UserUncheckedUpdateWithoutReviewsRecibidasInput>
 }
 
+export type UserCreateNestedOneWithoutNotificacionesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificacionesInput, Prisma.UserUncheckedCreateWithoutNotificacionesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificacionesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNotificacionesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificacionesInput, Prisma.UserUncheckedCreateWithoutNotificacionesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificacionesInput
+  upsert?: Prisma.UserUpsertWithoutNotificacionesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificacionesInput, Prisma.UserUpdateWithoutNotificacionesInput>, Prisma.UserUncheckedUpdateWithoutNotificacionesInput>
+}
+
 export type UserCreateNestedOneWithoutVerificacionTelefonoInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutVerificacionTelefonoInput, Prisma.UserUncheckedCreateWithoutVerificacionTelefonoInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutVerificacionTelefonoInput
@@ -695,7 +760,10 @@ export type UserCreateWithoutFavoresInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
+  notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUserInput
   reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
   reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
   conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
@@ -715,7 +783,10 @@ export type UserUncheckedCreateWithoutFavoresInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
+  notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUserInput
   reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
   reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
   conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
@@ -751,7 +822,10 @@ export type UserUpdateWithoutFavoresInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificaciones?: Prisma.NotificacionUpdateManyWithoutUserNestedInput
   reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
   reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
   conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
@@ -771,7 +845,10 @@ export type UserUncheckedUpdateWithoutFavoresInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUserNestedInput
   reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
   reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
   conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
@@ -791,8 +868,11 @@ export type UserCreateWithoutConexionesSolicitanteInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
   favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUserInput
   reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
   reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
   conexionesAyudante?: Prisma.FavorConexionCreateNestedManyWithoutAyudanteInput
@@ -811,8 +891,11 @@ export type UserUncheckedCreateWithoutConexionesSolicitanteInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
   favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUserInput
   reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
   reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
   conexionesAyudante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutAyudanteInput
@@ -836,8 +919,11 @@ export type UserCreateWithoutConexionesAyudanteInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
   favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUserInput
   reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
   reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
   conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
@@ -856,8 +942,11 @@ export type UserUncheckedCreateWithoutConexionesAyudanteInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
   favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUserInput
   reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
   reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
   conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
@@ -892,8 +981,11 @@ export type UserUpdateWithoutConexionesSolicitanteInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  notificaciones?: Prisma.NotificacionUpdateManyWithoutUserNestedInput
   reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
   reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
   conexionesAyudante?: Prisma.FavorConexionUpdateManyWithoutAyudanteNestedInput
@@ -912,8 +1004,11 @@ export type UserUncheckedUpdateWithoutConexionesSolicitanteInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
+  notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUserNestedInput
   reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
   reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
   conexionesAyudante?: Prisma.FavorConexionUncheckedUpdateManyWithoutAyudanteNestedInput
@@ -943,8 +1038,11 @@ export type UserUpdateWithoutConexionesAyudanteInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  notificaciones?: Prisma.NotificacionUpdateManyWithoutUserNestedInput
   reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
   reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
   conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
@@ -963,8 +1061,11 @@ export type UserUncheckedUpdateWithoutConexionesAyudanteInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
+  notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUserNestedInput
   reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
   reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
   conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
@@ -983,8 +1084,11 @@ export type UserCreateWithoutReviewsEscritasInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
   favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUserInput
   reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
   conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
   conexionesAyudante?: Prisma.FavorConexionCreateNestedManyWithoutAyudanteInput
@@ -1003,8 +1107,11 @@ export type UserUncheckedCreateWithoutReviewsEscritasInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
   favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUserInput
   reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
   conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
   conexionesAyudante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutAyudanteInput
@@ -1028,8 +1135,11 @@ export type UserCreateWithoutReviewsRecibidasInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
   favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUserInput
   reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
   conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
   conexionesAyudante?: Prisma.FavorConexionCreateNestedManyWithoutAyudanteInput
@@ -1048,8 +1158,11 @@ export type UserUncheckedCreateWithoutReviewsRecibidasInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
   favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUserInput
   reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
   conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
   conexionesAyudante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutAyudanteInput
@@ -1084,8 +1197,11 @@ export type UserUpdateWithoutReviewsEscritasInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  notificaciones?: Prisma.NotificacionUpdateManyWithoutUserNestedInput
   reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
   conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
   conexionesAyudante?: Prisma.FavorConexionUpdateManyWithoutAyudanteNestedInput
@@ -1104,8 +1220,11 @@ export type UserUncheckedUpdateWithoutReviewsEscritasInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
+  notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUserNestedInput
   reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
   conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
   conexionesAyudante?: Prisma.FavorConexionUncheckedUpdateManyWithoutAyudanteNestedInput
@@ -1135,8 +1254,11 @@ export type UserUpdateWithoutReviewsRecibidasInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  notificaciones?: Prisma.NotificacionUpdateManyWithoutUserNestedInput
   reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
   conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
   conexionesAyudante?: Prisma.FavorConexionUpdateManyWithoutAyudanteNestedInput
@@ -1155,9 +1277,120 @@ export type UserUncheckedUpdateWithoutReviewsRecibidasInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
+  notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUserNestedInput
+  reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedUpdateManyWithoutAyudanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutNotificacionesInput = {
+  id?: string
+  googleId: string
+  name?: string | null
+  email: string
+  photo?: string | null
+  telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
+  createdAt?: Date | string
+  favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
+  reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
+  conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
+  conexionesAyudante?: Prisma.FavorConexionCreateNestedManyWithoutAyudanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutNotificacionesInput = {
+  id?: string
+  googleId: string
+  name?: string | null
+  email: string
+  photo?: string | null
+  telefono?: string | null
+  telefonoVerificado?: boolean
+  telefonoVerificadoEn?: Date | string | null
+  promedioCalificacion?: number | null
+  totalReviews?: number
+  suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
+  createdAt?: Date | string
+  favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
+  conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
+  conexionesAyudante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutAyudanteInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutNotificacionesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificacionesInput, Prisma.UserUncheckedCreateWithoutNotificacionesInput>
+}
+
+export type UserUpsertWithoutNotificacionesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNotificacionesInput, Prisma.UserUncheckedUpdateWithoutNotificacionesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificacionesInput, Prisma.UserUncheckedCreateWithoutNotificacionesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNotificacionesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNotificacionesInput, Prisma.UserUncheckedUpdateWithoutNotificacionesInput>
+}
+
+export type UserUpdateWithoutNotificacionesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
+  reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
+  conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
+  conexionesAyudante?: Prisma.FavorConexionUpdateManyWithoutAyudanteNestedInput
+  verificacionTelefono?: Prisma.VerificacionTelefonoUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNotificacionesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  googleId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoVerificado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  telefonoVerificadoEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
   reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
+  reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
   conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
   conexionesAyudante?: Prisma.FavorConexionUncheckedUpdateManyWithoutAyudanteNestedInput
   verificacionTelefono?: Prisma.VerificacionTelefonoUncheckedUpdateOneWithoutUserNestedInput
@@ -1175,8 +1408,11 @@ export type UserCreateWithoutVerificacionTelefonoInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
   favores?: Prisma.FavorCreateNestedManyWithoutUserInput
+  notificaciones?: Prisma.NotificacionCreateNestedManyWithoutUserInput
   reviewsEscritas?: Prisma.ReviewCreateNestedManyWithoutAutorInput
   reviewsRecibidas?: Prisma.ReviewCreateNestedManyWithoutDestinatarioInput
   conexionesSolicitante?: Prisma.FavorConexionCreateNestedManyWithoutSolicitanteInput
@@ -1195,8 +1431,11 @@ export type UserUncheckedCreateWithoutVerificacionTelefonoInput = {
   promedioCalificacion?: number | null
   totalReviews?: number
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: string | null
   createdAt?: Date | string
   favores?: Prisma.FavorUncheckedCreateNestedManyWithoutUserInput
+  notificaciones?: Prisma.NotificacionUncheckedCreateNestedManyWithoutUserInput
   reviewsEscritas?: Prisma.ReviewUncheckedCreateNestedManyWithoutAutorInput
   reviewsRecibidas?: Prisma.ReviewUncheckedCreateNestedManyWithoutDestinatarioInput
   conexionesSolicitante?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutSolicitanteInput
@@ -1231,8 +1470,11 @@ export type UserUpdateWithoutVerificacionTelefonoInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUpdateManyWithoutUserNestedInput
+  notificaciones?: Prisma.NotificacionUpdateManyWithoutUserNestedInput
   reviewsEscritas?: Prisma.ReviewUpdateManyWithoutAutorNestedInput
   reviewsRecibidas?: Prisma.ReviewUpdateManyWithoutDestinatarioNestedInput
   conexionesSolicitante?: Prisma.FavorConexionUpdateManyWithoutSolicitanteNestedInput
@@ -1251,8 +1493,11 @@ export type UserUncheckedUpdateWithoutVerificacionTelefonoInput = {
   promedioCalificacion?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   totalReviews?: Prisma.IntFieldUpdateOperationsInput | number
   suspendido?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expoPushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favores?: Prisma.FavorUncheckedUpdateManyWithoutUserNestedInput
+  notificaciones?: Prisma.NotificacionUncheckedUpdateManyWithoutUserNestedInput
   reviewsEscritas?: Prisma.ReviewUncheckedUpdateManyWithoutAutorNestedInput
   reviewsRecibidas?: Prisma.ReviewUncheckedUpdateManyWithoutDestinatarioNestedInput
   conexionesSolicitante?: Prisma.FavorConexionUncheckedUpdateManyWithoutSolicitanteNestedInput
@@ -1266,6 +1511,7 @@ export type UserUncheckedUpdateWithoutVerificacionTelefonoInput = {
 
 export type UserCountOutputType = {
   favores: number
+  notificaciones: number
   reviewsEscritas: number
   reviewsRecibidas: number
   conexionesSolicitante: number
@@ -1274,6 +1520,7 @@ export type UserCountOutputType = {
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   favores?: boolean | UserCountOutputTypeCountFavoresArgs
+  notificaciones?: boolean | UserCountOutputTypeCountNotificacionesArgs
   reviewsEscritas?: boolean | UserCountOutputTypeCountReviewsEscritasArgs
   reviewsRecibidas?: boolean | UserCountOutputTypeCountReviewsRecibidasArgs
   conexionesSolicitante?: boolean | UserCountOutputTypeCountConexionesSolicitanteArgs
@@ -1295,6 +1542,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  */
 export type UserCountOutputTypeCountFavoresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.FavorWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNotificacionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificacionWhereInput
 }
 
 /**
@@ -1338,8 +1592,11 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   promedioCalificacion?: boolean
   totalReviews?: boolean
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: boolean
   createdAt?: boolean
   favores?: boolean | Prisma.User$favoresArgs<ExtArgs>
+  notificaciones?: boolean | Prisma.User$notificacionesArgs<ExtArgs>
   reviewsEscritas?: boolean | Prisma.User$reviewsEscritasArgs<ExtArgs>
   reviewsRecibidas?: boolean | Prisma.User$reviewsRecibidasArgs<ExtArgs>
   conexionesSolicitante?: boolean | Prisma.User$conexionesSolicitanteArgs<ExtArgs>
@@ -1360,6 +1617,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   promedioCalificacion?: boolean
   totalReviews?: boolean
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -1375,6 +1634,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   promedioCalificacion?: boolean
   totalReviews?: boolean
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -1390,12 +1651,15 @@ export type UserSelectScalar = {
   promedioCalificacion?: boolean
   totalReviews?: boolean
   suspendido?: boolean
+  isAdmin?: boolean
+  expoPushToken?: boolean
   createdAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "googleId" | "name" | "email" | "photo" | "telefono" | "telefonoVerificado" | "telefonoVerificadoEn" | "promedioCalificacion" | "totalReviews" | "suspendido" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "googleId" | "name" | "email" | "photo" | "telefono" | "telefonoVerificado" | "telefonoVerificadoEn" | "promedioCalificacion" | "totalReviews" | "suspendido" | "isAdmin" | "expoPushToken" | "createdAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   favores?: boolean | Prisma.User$favoresArgs<ExtArgs>
+  notificaciones?: boolean | Prisma.User$notificacionesArgs<ExtArgs>
   reviewsEscritas?: boolean | Prisma.User$reviewsEscritasArgs<ExtArgs>
   reviewsRecibidas?: boolean | Prisma.User$reviewsRecibidasArgs<ExtArgs>
   conexionesSolicitante?: boolean | Prisma.User$conexionesSolicitanteArgs<ExtArgs>
@@ -1410,6 +1674,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     favores: Prisma.$FavorPayload<ExtArgs>[]
+    notificaciones: Prisma.$NotificacionPayload<ExtArgs>[]
     reviewsEscritas: Prisma.$ReviewPayload<ExtArgs>[]
     reviewsRecibidas: Prisma.$ReviewPayload<ExtArgs>[]
     conexionesSolicitante: Prisma.$FavorConexionPayload<ExtArgs>[]
@@ -1428,6 +1693,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     promedioCalificacion: number | null
     totalReviews: number
     suspendido: boolean
+    isAdmin: boolean
+    expoPushToken: string | null
     createdAt: Date
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -1824,6 +2091,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   favores<T extends Prisma.User$favoresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$favoresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notificaciones<T extends Prisma.User$notificacionesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificacionesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificacionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviewsEscritas<T extends Prisma.User$reviewsEscritasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsEscritasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviewsRecibidas<T extends Prisma.User$reviewsRecibidasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsRecibidasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conexionesSolicitante<T extends Prisma.User$conexionesSolicitanteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conexionesSolicitanteArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavorConexionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1869,6 +2137,8 @@ export interface UserFieldRefs {
   readonly promedioCalificacion: Prisma.FieldRef<"User", 'Float'>
   readonly totalReviews: Prisma.FieldRef<"User", 'Int'>
   readonly suspendido: Prisma.FieldRef<"User", 'Boolean'>
+  readonly isAdmin: Prisma.FieldRef<"User", 'Boolean'>
+  readonly expoPushToken: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
@@ -2284,6 +2554,30 @@ export type User$favoresArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.FavorScalarFieldEnum | Prisma.FavorScalarFieldEnum[]
+}
+
+/**
+ * User.notificaciones
+ */
+export type User$notificacionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notificacion
+   */
+  select?: Prisma.NotificacionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notificacion
+   */
+  omit?: Prisma.NotificacionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificacionInclude<ExtArgs> | null
+  where?: Prisma.NotificacionWhereInput
+  orderBy?: Prisma.NotificacionOrderByWithRelationInput | Prisma.NotificacionOrderByWithRelationInput[]
+  cursor?: Prisma.NotificacionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificacionScalarFieldEnum | Prisma.NotificacionScalarFieldEnum[]
 }
 
 /**

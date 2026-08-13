@@ -40,6 +40,7 @@ model User {
   promedioCalificacion Float?
   totalReviews         Int       @default(0)
   suspendido           Boolean   @default(false)
+  isAdmin              Boolean   @default(false)
   expoPushToken        String?
   createdAt            DateTime  @default(now())
 

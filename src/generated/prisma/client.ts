@@ -60,6 +60,11 @@ export type FavorConexion = Prisma.FavorConexionModel
  */
 export type Review = Prisma.ReviewModel
 /**
+ * Model Notificacion
+ * 
+ */
+export type Notificacion = Prisma.NotificacionModel
+/**
  * Model VerificacionTelefono
  * 
  */

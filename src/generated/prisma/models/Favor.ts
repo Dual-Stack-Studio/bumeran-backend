@@ -78,6 +78,7 @@ export type FavorCountAggregateOutputType = {
   creadoEn: number
   expiraEn: number
   telefonoContacto: number
+  fotos: number
   userId: number
   _all: number
 }
@@ -135,6 +136,7 @@ export type FavorCountAggregateInputType = {
   creadoEn?: true
   expiraEn?: true
   telefonoContacto?: true
+  fotos?: true
   userId?: true
   _all?: true
 }
@@ -237,6 +239,7 @@ export type FavorGroupByOutputType = {
   creadoEn: Date
   expiraEn: Date | null
   telefonoContacto: string | null
+  fotos: string[]
   userId: string | null
   _count: FavorCountAggregateOutputType | null
   _avg: FavorAvgAggregateOutputType | null
@@ -275,6 +278,7 @@ export type FavorWhereInput = {
   creadoEn?: Prisma.DateTimeFilter<"Favor"> | Date | string
   expiraEn?: Prisma.DateTimeNullableFilter<"Favor"> | Date | string | null
   telefonoContacto?: Prisma.StringNullableFilter<"Favor"> | string | null
+  fotos?: Prisma.StringNullableListFilter<"Favor">
   userId?: Prisma.StringNullableFilter<"Favor"> | string | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   reviews?: Prisma.ReviewListRelationFilter
@@ -293,6 +297,7 @@ export type FavorOrderByWithRelationInput = {
   creadoEn?: Prisma.SortOrder
   expiraEn?: Prisma.SortOrderInput | Prisma.SortOrder
   telefonoContacto?: Prisma.SortOrderInput | Prisma.SortOrder
+  fotos?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
@@ -314,6 +319,7 @@ export type FavorWhereUniqueInput = Prisma.AtLeast<{
   creadoEn?: Prisma.DateTimeFilter<"Favor"> | Date | string
   expiraEn?: Prisma.DateTimeNullableFilter<"Favor"> | Date | string | null
   telefonoContacto?: Prisma.StringNullableFilter<"Favor"> | string | null
+  fotos?: Prisma.StringNullableListFilter<"Favor">
   userId?: Prisma.StringNullableFilter<"Favor"> | string | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   reviews?: Prisma.ReviewListRelationFilter
@@ -332,6 +338,7 @@ export type FavorOrderByWithAggregationInput = {
   creadoEn?: Prisma.SortOrder
   expiraEn?: Prisma.SortOrderInput | Prisma.SortOrder
   telefonoContacto?: Prisma.SortOrderInput | Prisma.SortOrder
+  fotos?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.FavorCountOrderByAggregateInput
   _avg?: Prisma.FavorAvgOrderByAggregateInput
@@ -355,6 +362,7 @@ export type FavorScalarWhereWithAggregatesInput = {
   creadoEn?: Prisma.DateTimeWithAggregatesFilter<"Favor"> | Date | string
   expiraEn?: Prisma.DateTimeNullableWithAggregatesFilter<"Favor"> | Date | string | null
   telefonoContacto?: Prisma.StringNullableWithAggregatesFilter<"Favor"> | string | null
+  fotos?: Prisma.StringNullableListFilter<"Favor">
   userId?: Prisma.StringNullableWithAggregatesFilter<"Favor"> | string | null
 }
 
@@ -370,6 +378,7 @@ export type FavorCreateInput = {
   creadoEn?: Date | string
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
+  fotos?: Prisma.FavorCreatefotosInput | string[]
   user?: Prisma.UserCreateNestedOneWithoutFavoresInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutFavorInput
   conexiones?: Prisma.FavorConexionCreateNestedManyWithoutFavorInput
@@ -387,6 +396,7 @@ export type FavorUncheckedCreateInput = {
   creadoEn?: Date | string
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
+  fotos?: Prisma.FavorCreatefotosInput | string[]
   userId?: string | null
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutFavorInput
   conexiones?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutFavorInput
@@ -404,6 +414,7 @@ export type FavorUpdateInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotos?: Prisma.FavorUpdatefotosInput | string[]
   user?: Prisma.UserUpdateOneWithoutFavoresNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutFavorNestedInput
   conexiones?: Prisma.FavorConexionUpdateManyWithoutFavorNestedInput
@@ -421,6 +432,7 @@ export type FavorUncheckedUpdateInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotos?: Prisma.FavorUpdatefotosInput | string[]
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutFavorNestedInput
   conexiones?: Prisma.FavorConexionUncheckedUpdateManyWithoutFavorNestedInput
@@ -438,6 +450,7 @@ export type FavorCreateManyInput = {
   creadoEn?: Date | string
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
+  fotos?: Prisma.FavorCreatefotosInput | string[]
   userId?: string | null
 }
 
@@ -453,6 +466,7 @@ export type FavorUpdateManyMutationInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotos?: Prisma.FavorUpdatefotosInput | string[]
 }
 
 export type FavorUncheckedUpdateManyInput = {
@@ -467,6 +481,7 @@ export type FavorUncheckedUpdateManyInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotos?: Prisma.FavorUpdatefotosInput | string[]
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -478,6 +493,14 @@ export type FavorListRelationFilter = {
 
 export type FavorOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type FavorCountOrderByAggregateInput = {
@@ -492,6 +515,7 @@ export type FavorCountOrderByAggregateInput = {
   creadoEn?: Prisma.SortOrder
   expiraEn?: Prisma.SortOrder
   telefonoContacto?: Prisma.SortOrder
+  fotos?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
 
@@ -582,6 +606,10 @@ export type FavorUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.FavorScalarWhereInput | Prisma.FavorScalarWhereInput[]
 }
 
+export type FavorCreatefotosInput = {
+  set: string[]
+}
+
 export type EnumTipoFavorFieldUpdateOperationsInput = {
   set?: $Enums.TipoFavor
 }
@@ -596,6 +624,11 @@ export type FloatFieldUpdateOperationsInput = {
 
 export type EnumEstadoFavorFieldUpdateOperationsInput = {
   set?: $Enums.EstadoFavor
+}
+
+export type FavorUpdatefotosInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type FavorCreateNestedOneWithoutConexionesInput = {
@@ -638,6 +671,7 @@ export type FavorCreateWithoutUserInput = {
   creadoEn?: Date | string
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
+  fotos?: Prisma.FavorCreatefotosInput | string[]
   reviews?: Prisma.ReviewCreateNestedManyWithoutFavorInput
   conexiones?: Prisma.FavorConexionCreateNestedManyWithoutFavorInput
 }
@@ -654,6 +688,7 @@ export type FavorUncheckedCreateWithoutUserInput = {
   creadoEn?: Date | string
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
+  fotos?: Prisma.FavorCreatefotosInput | string[]
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutFavorInput
   conexiones?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutFavorInput
 }
@@ -699,6 +734,7 @@ export type FavorScalarWhereInput = {
   creadoEn?: Prisma.DateTimeFilter<"Favor"> | Date | string
   expiraEn?: Prisma.DateTimeNullableFilter<"Favor"> | Date | string | null
   telefonoContacto?: Prisma.StringNullableFilter<"Favor"> | string | null
+  fotos?: Prisma.StringNullableListFilter<"Favor">
   userId?: Prisma.StringNullableFilter<"Favor"> | string | null
 }
 
@@ -714,6 +750,7 @@ export type FavorCreateWithoutConexionesInput = {
   creadoEn?: Date | string
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
+  fotos?: Prisma.FavorCreatefotosInput | string[]
   user?: Prisma.UserCreateNestedOneWithoutFavoresInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutFavorInput
 }
@@ -730,6 +767,7 @@ export type FavorUncheckedCreateWithoutConexionesInput = {
   creadoEn?: Date | string
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
+  fotos?: Prisma.FavorCreatefotosInput | string[]
   userId?: string | null
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutFavorInput
 }
@@ -762,6 +800,7 @@ export type FavorUpdateWithoutConexionesInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotos?: Prisma.FavorUpdatefotosInput | string[]
   user?: Prisma.UserUpdateOneWithoutFavoresNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutFavorNestedInput
 }
@@ -778,6 +817,7 @@ export type FavorUncheckedUpdateWithoutConexionesInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotos?: Prisma.FavorUpdatefotosInput | string[]
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutFavorNestedInput
 }
@@ -794,6 +834,7 @@ export type FavorCreateWithoutReviewsInput = {
   creadoEn?: Date | string
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
+  fotos?: Prisma.FavorCreatefotosInput | string[]
   user?: Prisma.UserCreateNestedOneWithoutFavoresInput
   conexiones?: Prisma.FavorConexionCreateNestedManyWithoutFavorInput
 }
@@ -810,6 +851,7 @@ export type FavorUncheckedCreateWithoutReviewsInput = {
   creadoEn?: Date | string
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
+  fotos?: Prisma.FavorCreatefotosInput | string[]
   userId?: string | null
   conexiones?: Prisma.FavorConexionUncheckedCreateNestedManyWithoutFavorInput
 }
@@ -842,6 +884,7 @@ export type FavorUpdateWithoutReviewsInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotos?: Prisma.FavorUpdatefotosInput | string[]
   user?: Prisma.UserUpdateOneWithoutFavoresNestedInput
   conexiones?: Prisma.FavorConexionUpdateManyWithoutFavorNestedInput
 }
@@ -858,6 +901,7 @@ export type FavorUncheckedUpdateWithoutReviewsInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotos?: Prisma.FavorUpdatefotosInput | string[]
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   conexiones?: Prisma.FavorConexionUncheckedUpdateManyWithoutFavorNestedInput
 }
@@ -874,6 +918,7 @@ export type FavorCreateManyUserInput = {
   creadoEn?: Date | string
   expiraEn?: Date | string | null
   telefonoContacto?: string | null
+  fotos?: Prisma.FavorCreatefotosInput | string[]
 }
 
 export type FavorUpdateWithoutUserInput = {
@@ -888,6 +933,7 @@ export type FavorUpdateWithoutUserInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotos?: Prisma.FavorUpdatefotosInput | string[]
   reviews?: Prisma.ReviewUpdateManyWithoutFavorNestedInput
   conexiones?: Prisma.FavorConexionUpdateManyWithoutFavorNestedInput
 }
@@ -904,6 +950,7 @@ export type FavorUncheckedUpdateWithoutUserInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotos?: Prisma.FavorUpdatefotosInput | string[]
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutFavorNestedInput
   conexiones?: Prisma.FavorConexionUncheckedUpdateManyWithoutFavorNestedInput
 }
@@ -920,6 +967,7 @@ export type FavorUncheckedUpdateManyWithoutUserInput = {
   creadoEn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiraEn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fotos?: Prisma.FavorUpdatefotosInput | string[]
 }
 
 
@@ -974,6 +1022,7 @@ export type FavorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   creadoEn?: boolean
   expiraEn?: boolean
   telefonoContacto?: boolean
+  fotos?: boolean
   userId?: boolean
   user?: boolean | Prisma.Favor$userArgs<ExtArgs>
   reviews?: boolean | Prisma.Favor$reviewsArgs<ExtArgs>
@@ -993,6 +1042,7 @@ export type FavorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   creadoEn?: boolean
   expiraEn?: boolean
   telefonoContacto?: boolean
+  fotos?: boolean
   userId?: boolean
   user?: boolean | Prisma.Favor$userArgs<ExtArgs>
 }, ExtArgs["result"]["favor"]>
@@ -1009,6 +1059,7 @@ export type FavorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   creadoEn?: boolean
   expiraEn?: boolean
   telefonoContacto?: boolean
+  fotos?: boolean
   userId?: boolean
   user?: boolean | Prisma.Favor$userArgs<ExtArgs>
 }, ExtArgs["result"]["favor"]>
@@ -1025,10 +1076,11 @@ export type FavorSelectScalar = {
   creadoEn?: boolean
   expiraEn?: boolean
   telefonoContacto?: boolean
+  fotos?: boolean
   userId?: boolean
 }
 
-export type FavorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tipo" | "titulo" | "descripcion" | "categoria" | "latitude" | "longitude" | "estado" | "creadoEn" | "expiraEn" | "telefonoContacto" | "userId", ExtArgs["result"]["favor"]>
+export type FavorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tipo" | "titulo" | "descripcion" | "categoria" | "latitude" | "longitude" | "estado" | "creadoEn" | "expiraEn" | "telefonoContacto" | "fotos" | "userId", ExtArgs["result"]["favor"]>
 export type FavorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Favor$userArgs<ExtArgs>
   reviews?: boolean | Prisma.Favor$reviewsArgs<ExtArgs>
@@ -1061,6 +1113,7 @@ export type $FavorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     creadoEn: Date
     expiraEn: Date | null
     telefonoContacto: string | null
+    fotos: string[]
     userId: string | null
   }, ExtArgs["result"]["favor"]>
   composites: {}
@@ -1499,6 +1552,7 @@ export interface FavorFieldRefs {
   readonly creadoEn: Prisma.FieldRef<"Favor", 'DateTime'>
   readonly expiraEn: Prisma.FieldRef<"Favor", 'DateTime'>
   readonly telefonoContacto: Prisma.FieldRef<"Favor", 'String'>
+  readonly fotos: Prisma.FieldRef<"Favor", 'String[]'>
   readonly userId: Prisma.FieldRef<"Favor", 'String'>
 }
     

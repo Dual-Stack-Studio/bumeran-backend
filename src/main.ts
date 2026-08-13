@@ -19,11 +19,13 @@ async function bootstrap() {
   // varios ataques comunes del lado del navegador.
   app.use(helmet());
 
-  // Solo el frontend conocido puede llamar a la API desde un navegador.
+  // Solo los orígenes conocidos pueden llamar a la API desde un navegador.
   // Esto no afecta a la app móvil (React Native no manda header Origin),
   // pero sí bloquea que cualquier sitio web ajeno haga requests desde JS del browser.
   app.enableCors({
-    origin: process.env.FRONTEND_URL,
+    origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL].filter(
+      (origin): origin is string => !!origin,
+    ),
   });
 
   app.useGlobalPipes(

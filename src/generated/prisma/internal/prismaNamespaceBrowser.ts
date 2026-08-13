@@ -55,6 +55,7 @@ export const ModelName = {
   Favor: 'Favor',
   FavorConexion: 'FavorConexion',
   Review: 'Review',
+  Notificacion: 'Notificacion',
   VerificacionTelefono: 'VerificacionTelefono'
 } as const
 
@@ -86,6 +87,8 @@ export const UserScalarFieldEnum = {
   promedioCalificacion: 'promedioCalificacion',
   totalReviews: 'totalReviews',
   suspendido: 'suspendido',
+  isAdmin: 'isAdmin',
+  expoPushToken: 'expoPushToken',
   createdAt: 'createdAt'
 } as const
 
@@ -104,6 +107,7 @@ export const FavorScalarFieldEnum = {
   creadoEn: 'creadoEn',
   expiraEn: 'expiraEn',
   telefonoContacto: 'telefonoContacto',
+  fotos: 'fotos',
   userId: 'userId'
 } as const
 
@@ -135,6 +139,20 @@ export const ReviewScalarFieldEnum = {
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
 
 
+export const NotificacionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tipo: 'tipo',
+  titulo: 'titulo',
+  cuerpo: 'cuerpo',
+  leida: 'leida',
+  payload: 'payload',
+  creadoEn: 'creadoEn'
+} as const
+
+export type NotificacionScalarFieldEnum = (typeof NotificacionScalarFieldEnum)[keyof typeof NotificacionScalarFieldEnum]
+
+
 export const VerificacionTelefonoScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -155,6 +173,14 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -169,4 +195,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

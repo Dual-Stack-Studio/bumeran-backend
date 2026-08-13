@@ -67,7 +67,7 @@ Anti-abuse: the same phone number cannot be verified on more than one account. I
 
 Prisma over PostgreSQL. Core entities:
 
-- **User** — `googleId`, `email`, `name`, `photo`, phone + verification fields (`telefono`, `telefonoVerificado`, `telefonoVerificadoEn`), rating aggregates (`promedioCalificacion`, `totalReviews`), `suspendido`, `expoPushToken` (stored on login for push delivery).
+- **User** — `googleId`, `email`, `name`, `photo`, phone + verification fields (`telefono`, `telefonoVerificado`, `telefonoVerificadoEn`), rating aggregates (`promedioCalificacion`, `totalReviews`), `suspendido` (auto-set when average rating < 2.0 with 3+ reviews, or manually via the admin panel), `isAdmin`, `expoPushToken` (stored on login for push delivery).
 - **Favor** — `tipo` (`necesito` / `ofrezco` / `regalo`), `titulo`, `descripcion`, `categoria`, `latitude` / `longitude`, `estado` (`abierto` / `en_proceso` / `cerrado` / `cancelado`), `expiraEn`, `telefonoContacto`, `fotos` (array of Cloudinary URLs).
 - **FavorConexion** — links a helper (`ayudante`) to a requester (`solicitante`) on a favor; `estado` (`pendiente` → `aceptada` → `completada` / `cancelada`). Unique per `(favor, ayudante)`.
 - **Review** — `estrellas` + `comentario`, tied to a favor, an author and a recipient. Unique per `(favor, author)`.
@@ -132,6 +132,15 @@ All routes are prefixed with **`/api`**. Protected routes (🔒) require a JWT.
 | POST | `/verificacion/confirmar` | 🔒 | Confirm the code; sets `telefonoVerificado = true` |
 | GET | `/verificacion/estado` | 🔒 | Current verification status |
 
+### Admin — `/api/admin`
+| Method | Path | Auth | Description |
+|--------|------|------|-------------|
+| GET | `/admin/usuarios` | 🔒👑 | List users — `?search=&suspendido=&page=`, paginated |
+| GET | `/admin/usuarios/:id` | 🔒👑 | User detail — favores + reseñas recibidas |
+| PATCH | `/admin/usuarios/:id/suspension` | 🔒👑 | Manually suspend/reactivate a user — body `{ suspendido: boolean }` |
+
+👑 requires `isAdmin: true` on the requesting user (checked by `AdminGuard`, on top of the JWT check). There's no self-serve way to become admin — the first admin is bootstrapped with a manual `UPDATE users SET "isAdmin" = true WHERE email = '...'`. Consumed by the separate `bumeran-admin` panel (own repo, own deploy), not the mobile app.
+
 ---
 
 ## ⚙️ Environment Variables
@@ -149,8 +158,9 @@ GOOGLE_ANDROID_CLIENT_ID=your-android-oauth-client-id.apps.googleusercontent.com
 # JWT
 JWT_ACCESS_SECRET=a_long_random_secret
 
-# CORS — the mobile app / web origin allowed to call the API
+# CORS — allowed browser origins
 FRONTEND_URL=http://localhost:8081
+ADMIN_URL=http://localhost:5173
 
 # Twilio SMS (optional — if unset, the code is returned in the response for dev)
 TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

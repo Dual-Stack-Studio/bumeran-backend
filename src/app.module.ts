@@ -11,6 +11,7 @@ import { ReviewsModule } from './reviews/reviews.module';
 import { ConexionesModule } from './conexiones/conexiones.module';
 import { VerificacionModule } from './verificacion/verificacion.module';
 import { NotificacionesModule } from './notificaciones/notificaciones.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { NotificacionesModule } from './notificaciones/notificaciones.module';
     ConexionesModule,
     VerificacionModule,
     NotificacionesModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [
