@@ -158,6 +158,10 @@ GOOGLE_ANDROID_CLIENT_ID=your-android-oauth-client-id.apps.googleusercontent.com
 # JWT
 JWT_ACCESS_SECRET=a_long_random_secret
 
+# Closed testing gate — comma-separated emails allowed to log in.
+# Leave unset (or empty) to allow anyone with a Google account — do this once the app is public.
+ALLOWED_EMAILS=you@gmail.com,tester1@gmail.com,tester2@gmail.com
+
 # CORS — allowed browser origins
 FRONTEND_URL=http://localhost:8081
 ADMIN_URL=http://localhost:5173

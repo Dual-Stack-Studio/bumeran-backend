@@ -6,6 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { NotificacionesService } from '../notificaciones/notificaciones.service';
 import { CreateReviewDto } from './create-review.dto';
 
 // Umbral de suspensión: promedio < 2.0 con al menos 3 reseñas
@@ -14,7 +15,10 @@ const SUSPENSION_MAX_PROMEDIO = 2.0;
 
 @Injectable()
 export class ReviewsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly notificaciones: NotificacionesService,
+  ) {}
 
   async create(dto: CreateReviewDto, autorId: string) {
     if (autorId === dto.destinatarioId) {
@@ -86,10 +90,16 @@ export class ReviewsService {
   }
 
   private async recalcularEstadisticas(userId: string): Promise<void> {
-    const reviews = await this.prisma.review.findMany({
-      where: { destinatarioId: userId },
-      select: { estrellas: true },
-    });
+    const [reviews, usuarioActual] = await Promise.all([
+      this.prisma.review.findMany({
+        where: { destinatarioId: userId },
+        select: { estrellas: true },
+      }),
+      this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { suspendido: true },
+      }),
+    ]);
 
     const total = reviews.length;
     const promedio =
@@ -120,6 +130,25 @@ export class ReviewsService {
         },
         data: { estado: 'cancelado' },
       });
+    }
+
+    // Avisamos al usuario solo cuando el estado de suspensión cambia de verdad,
+    // no en cada review nueva.
+    const yaEstabaSuspendido = usuarioActual?.suspendido ?? false;
+    if (debeSuspenderse && !yaEstabaSuspendido) {
+      void this.notificaciones.crear(
+        userId,
+        'cuenta_suspendida',
+        'Tu cuenta fue suspendida',
+        'Tu promedio de calificaciones bajó de 2.0 estrellas. No podés publicar ni conectarte con vecinos hasta que se reactive.',
+      );
+    } else if (!debeSuspenderse && yaEstabaSuspendido) {
+      void this.notificaciones.crear(
+        userId,
+        'cuenta_reactivada',
+        'Tu cuenta fue reactivada',
+        'Tu promedio de calificaciones mejoró y tu cuenta ya no está suspendida. Ya podés volver a publicar y conectarte con vecinos.',
+      );
     }
   }
 }

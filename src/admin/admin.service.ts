@@ -1,12 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { NotificacionesService } from '../notificaciones/notificaciones.service';
 import type { Prisma } from '../generated/prisma/client';
 
 const PAGE_SIZE = 20;
 
 @Injectable()
 export class AdminService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly notificaciones: NotificacionesService,
+  ) {}
 
   async listarUsuarios(opts: {
     search?: string;
@@ -116,6 +120,17 @@ export class AdminService {
         where: { userId: id, estado: { in: ['abierto', 'en_proceso'] } },
         data: { estado: 'cancelado' },
       });
+    }
+
+    if (usuario.suspendido !== suspendido) {
+      void this.notificaciones.crear(
+        id,
+        suspendido ? 'cuenta_suspendida' : 'cuenta_reactivada',
+        suspendido ? 'Tu cuenta fue suspendida' : 'Tu cuenta fue reactivada',
+        suspendido
+          ? 'Un administrador suspendió tu cuenta. No podés publicar ni conectarte con vecinos hasta que se reactive.'
+          : 'Tu cuenta fue reactivada por un administrador. Ya podés volver a publicar y conectarte con vecinos.',
+      );
     }
 
     return this.getUsuario(id);
