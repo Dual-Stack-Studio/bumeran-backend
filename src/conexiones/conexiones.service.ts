@@ -231,7 +231,7 @@ export class ConexionesService {
       include: {
         favor: { select: { id: true, titulo: true, tipo: true, estado: true, telefonoContacto: true } },
         solicitante: { select: { id: true, name: true, photo: true } },
-        ayudante: { select: { id: true, name: true, photo: true } },
+        ayudante: { select: { id: true, name: true, photo: true, telefono: true, telefonoVerificado: true } },
       },
       orderBy: { creadoEn: 'desc' },
     });
