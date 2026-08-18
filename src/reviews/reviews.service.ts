@@ -141,6 +141,7 @@ export class ReviewsService {
         'cuenta_suspendida',
         'Tu cuenta fue suspendida',
         'Tu promedio de calificaciones bajó de 2.0 estrellas. No podés publicar ni conectarte con vecinos hasta que se reactive.',
+        { motivo: 'rating' },
       );
     } else if (!debeSuspenderse && yaEstabaSuspendido) {
       void this.notificaciones.crear(
@@ -148,6 +149,7 @@ export class ReviewsService {
         'cuenta_reactivada',
         'Tu cuenta fue reactivada',
         'Tu promedio de calificaciones mejoró y tu cuenta ya no está suspendida. Ya podés volver a publicar y conectarte con vecinos.',
+        { motivo: 'rating' },
       );
     }
   }

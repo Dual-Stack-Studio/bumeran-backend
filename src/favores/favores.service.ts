@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -58,12 +59,20 @@ export class FavoresService {
   async create(dto: CreateFavorDto, userId: string): Promise<Favor> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      select: { suspendido: true },
+      select: { suspendido: true, telefonoVerificado: true },
     });
     if (user?.suspendido) {
       throw new ForbiddenException(
         'Tu cuenta está suspendida por calificaciones negativas. No podés crear nuevas publicaciones.',
       );
+    }
+    if (!user?.telefonoVerificado) {
+      throw new ForbiddenException(
+        'Necesitás verificar tu número de teléfono antes de publicar.',
+      );
+    }
+    if (!dto.fotos || dto.fotos.length === 0) {
+      throw new BadRequestException('Agregá al menos una foto para publicar.');
     }
 
     return await this.prisma.favor.create({
@@ -89,6 +98,10 @@ export class FavoresService {
   ): Promise<Favor> {
     const favor = await this.findOne(id);
     this.verificarPropietario(favor, userId);
+
+    if (dto.fotos && dto.fotos.length === 0) {
+      throw new BadRequestException('Agregá al menos una foto para publicar.');
+    }
 
     return await this.prisma.favor.update({
       where: { id },

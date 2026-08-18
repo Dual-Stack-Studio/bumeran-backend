@@ -130,6 +130,7 @@ export class AdminService {
         suspendido
           ? 'Un administrador suspendió tu cuenta. No podés publicar ni conectarte con vecinos hasta que se reactive.'
           : 'Tu cuenta fue reactivada por un administrador. Ya podés volver a publicar y conectarte con vecinos.',
+        { motivo: 'admin' },
       );
     }
 

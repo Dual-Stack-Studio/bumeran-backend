@@ -27,6 +27,9 @@ export class ConexionesService {
     if (favor.estado !== 'abierto') {
       throw new BadRequestException('Este favor ya no acepta nuevas conexiones');
     }
+    if (!favor.userId) {
+      throw new BadRequestException('Este favor no tiene un dueño válido, no se puede conectar.');
+    }
 
     const ayudante = await this.prisma.user.findUnique({
       where: { id: ayudanteId },
@@ -53,7 +56,7 @@ export class ConexionesService {
     const resultado = await this.prisma.favorConexion.create({
       data: {
         favorId: dto.favorId,
-        solicitanteId: favor.userId!,
+        solicitanteId: favor.userId,
         ayudanteId,
         estado: 'pendiente',
       },
@@ -69,7 +72,12 @@ export class ConexionesService {
         'conexion_nueva',
         'Nueva solicitud de ayuda',
         `${resultado.ayudante.name ?? 'Alguien'} quiere ayudarte con «${resultado.favor.titulo}»`,
-        { favorId: favor.id, conexionId: resultado.id },
+        {
+          favorId: favor.id,
+          conexionId: resultado.id,
+          favorTitulo: resultado.favor.titulo,
+          ayudanteNombre: resultado.ayudante.name ?? null,
+        },
       );
     }
 
@@ -105,7 +113,7 @@ export class ConexionesService {
       'conexion_aceptada',
       'Solicitud aceptada 🎉',
       `Tu solicitud para «${conexion.favor.titulo}» fue aceptada.`,
-      { favorId: conexion.favorId, conexionId: id },
+      { favorId: conexion.favorId, conexionId: id, favorTitulo: conexion.favor.titulo },
     );
 
     return conexionActualizada;
@@ -145,7 +153,7 @@ export class ConexionesService {
       'conexion_completada',
       '¡Favor completado! ✅',
       `«${conexion.favor.titulo}» fue completado. ¡Calificá tu experiencia!`,
-      { favorId: conexion.favorId, conexionId: id },
+      { favorId: conexion.favorId, conexionId: id, favorTitulo: conexion.favor.titulo },
     );
 
     return conexionActualizada;
@@ -184,7 +192,7 @@ export class ConexionesService {
       'conexion_cancelada',
       'Conexión cancelada',
       `La conexión para «${conexion.favor.titulo}» fue cancelada.`,
-      { favorId: conexion.favorId, conexionId: id },
+      { favorId: conexion.favorId, conexionId: id, favorTitulo: conexion.favor.titulo },
     );
 
     return conexionActualizada;
