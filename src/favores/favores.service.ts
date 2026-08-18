@@ -44,6 +44,13 @@ export class FavoresService {
     });
   }
 
+  async findByUsuario(userId: string): Promise<Favor[]> {
+    return this.prisma.favor.findMany({
+      where: { userId },
+      orderBy: { creadoEn: 'desc' },
+    });
+  }
+
   async findOne(id: string): Promise<Favor> {
     const favor = await this.prisma.favor.findUnique({
       where: { id },

@@ -85,44 +85,38 @@ export class ConexionesService {
   }
 
   async aceptar(id: string, userId: string) {
-    try {
-      const conexion = await this.prisma.favorConexion.findUnique({
-        where: { id },
-        include: { favor: { select: { titulo: true } } },
-      });
-      if (!conexion) throw new NotFoundException('Conexión no encontrada');
-      if (conexion.solicitanteId !== userId) {
-        throw new ForbiddenException('Solo el dueño del favor puede aceptar');
-      }
-      if (conexion.estado !== 'pendiente') {
-        throw new BadRequestException('Esta conexión ya fue procesada');
-      }
-
-      const [conexionActualizada] = await this.prisma.$transaction([
-        this.prisma.favorConexion.update({
-          where: { id },
-          data: { estado: 'aceptada' },
-        }),
-        this.prisma.favor.update({
-          where: { id: conexion.favorId },
-          data: { estado: 'en_proceso' },
-        }),
-      ]);
-
-      void this.notificaciones.crear(
-        conexion.ayudanteId,
-        'conexion_aceptada',
-        'Solicitud aceptada 🎉',
-        `Tu solicitud para «${conexion.favor.titulo}» fue aceptada.`,
-        { favorId: conexion.favorId, conexionId: id, favorTitulo: conexion.favor.titulo },
-      );
-
-      return conexionActualizada;
-    } catch (err: any) {
-      // TEMPORAL: log detallado para diagnosticar el "Unexpected token" que reporta el cliente.
-      console.error('[conexiones.aceptar] id=%s userId=%s error=%s stack=%s', id, userId, err?.message, err?.stack);
-      throw err;
+    const conexion = await this.prisma.favorConexion.findUnique({
+      where: { id },
+      include: { favor: { select: { titulo: true } } },
+    });
+    if (!conexion) throw new NotFoundException('Conexión no encontrada');
+    if (conexion.solicitanteId !== userId) {
+      throw new ForbiddenException('Solo el dueño del favor puede aceptar');
     }
+    if (conexion.estado !== 'pendiente') {
+      throw new BadRequestException('Esta conexión ya fue procesada');
+    }
+
+    const [conexionActualizada] = await this.prisma.$transaction([
+      this.prisma.favorConexion.update({
+        where: { id },
+        data: { estado: 'aceptada' },
+      }),
+      this.prisma.favor.update({
+        where: { id: conexion.favorId },
+        data: { estado: 'en_proceso' },
+      }),
+    ]);
+
+    void this.notificaciones.crear(
+      conexion.ayudanteId,
+      'conexion_aceptada',
+      'Solicitud aceptada 🎉',
+      `Tu solicitud para «${conexion.favor.titulo}» fue aceptada.`,
+      { favorId: conexion.favorId, conexionId: id, favorTitulo: conexion.favor.titulo },
+    );
+
+    return conexionActualizada;
   }
 
   async completar(id: string, userId: string) {
@@ -235,7 +229,7 @@ export class ConexionesService {
         OR: [{ solicitanteId: userId }, { ayudanteId: userId }],
       },
       include: {
-        favor: { select: { id: true, titulo: true, tipo: true, estado: true } },
+        favor: { select: { id: true, titulo: true, tipo: true, estado: true, telefonoContacto: true } },
         solicitante: { select: { id: true, name: true, photo: true } },
         ayudante: { select: { id: true, name: true, photo: true } },
       },

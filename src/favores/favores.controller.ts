@@ -47,6 +47,11 @@ export class FavoresController {
     return this.favoresService.findMine(req.user.id);
   }
 
+  @Get('usuario/:userId')
+  findByUsuario(@Param('userId') userId: string) {
+    return this.favoresService.findByUsuario(userId);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.favoresService.findOne(id);
