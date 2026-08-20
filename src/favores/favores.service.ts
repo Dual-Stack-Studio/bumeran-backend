@@ -123,9 +123,15 @@ export class FavoresService {
     const favor = await this.findOne(id);
     this.verificarPropietario(favor, userId);
 
-    return await this.prisma.favor.delete({
-      where: { id },
-    });
+    // Las reviews y conexiones apuntan al favor con FK en modo RESTRICT (sin
+    // cascada), así que hay que borrarlas primero o el delete del favor explota.
+    const [, , favorEliminado] = await this.prisma.$transaction([
+      this.prisma.review.deleteMany({ where: { favorId: id } }),
+      this.prisma.favorConexion.deleteMany({ where: { favorId: id } }),
+      this.prisma.favor.delete({ where: { id } }),
+    ]);
+
+    return favorEliminado;
   }
 
   private verificarPropietario(favor: Favor, userId: string): void {
